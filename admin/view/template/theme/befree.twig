@@ -1,0 +1,112 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-theme" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <form id="form-theme" action="{{ save }}" method="post" data-oc-toggle="ajax">
+      <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-general">Identity</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-sections">Sections</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-use">Product use</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-hubs">Hubs</a></li>
+      </ul>
+      <div class="tab-content card">
+        <div class="tab-pane active card-body" id="tab-general">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Status</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="theme_befree_status" value="0"/>
+                <input type="checkbox" name="theme_befree_status" value="1" class="form-check-input"{% if theme_befree_status %} checked{% endif %}/>
+              </div>
+              <div class="form-text">Then set the store theme to BeFree OpenCart Theme under System → Settings. Free software under the GNU GPLv3. Generated with Grok (xAI).</div>
+            </div>
+          </div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input type="text" name="theme_befree_phone" value="{{ theme_befree_phone }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Email</label><div class="col-sm-10"><input type="text" name="theme_befree_email" value="{{ theme_befree_email }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero kicker</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_kicker" value="{{ theme_befree_hero_kicker }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero title</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_title" value="{{ theme_befree_hero_title }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Highlight stat</label><div class="col-sm-10"><input type="text" name="theme_befree_highlight" value="{{ theme_befree_highlight }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Brass</label><div class="col-sm-10"><input type="color" name="theme_befree_gold" value="{{ theme_befree_gold }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Navy</label><div class="col-sm-10"><input type="color" name="theme_befree_navy" value="{{ theme_befree_navy }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Ink</label><div class="col-sm-10"><input type="color" name="theme_befree_ink" value="{{ theme_befree_ink }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Bulk quote from</label><div class="col-sm-10"><input type="number" name="theme_befree_bulk" value="{{ theme_befree_bulk }}" class="form-control" style="max-width:160px"/> <div class="form-text">Shelf cards at or above this amount are marked Bulk.</div></div></div>
+        </div>
+        <div class="tab-pane card-body" id="tab-sections">
+          {% set flags = {
+            'theme_befree_show_hero': 'Home hero',
+            'theme_befree_show_uses': 'Product use menu',
+            'theme_befree_show_proof': 'Sample quotes',
+            'theme_befree_show_matrix': 'Comparison table',
+            'theme_befree_show_advisor': 'Volume advisor',
+            'theme_befree_show_hubs': 'Two hubs'
+          } %}
+          {% for key, label in flags %}
+            <div class="form-check form-switch mb-3">
+              <input type="hidden" name="{{ key }}" value="0"/>
+              <input class="form-check-input" type="checkbox" name="{{ key }}" value="1" id="{{ key }}"{% if attribute(_context, key) %} checked{% endif %}/>
+              <label class="form-check-label" for="{{ key }}">{{ label }}</label>
+            </div>
+          {% endfor %}
+          <p class="text-muted">If products show twice, open Design → Layouts → Home and remove the old Featured module. The theme already lists live products.</p>
+        </div>
+        <div class="tab-pane card-body" id="tab-use">
+          <p>These rows do not create categories. Each row searches product names and models. Your real categories stay in the main menu.</p>
+          <table class="table" id="use-table">
+            <thead><tr><th>Code</th><th>Name</th><th>Kicker</th><th>Keywords</th><th></th></tr></thead>
+            <tbody>
+              {% for row in theme_befree_use %}
+                <tr>
+                  <td><input class="form-control" name="theme_befree_use[{{ loop.index0 }}][code]" value="{{ row.code }}"/></td>
+                  <td><input class="form-control" name="theme_befree_use[{{ loop.index0 }}][name]" value="{{ row.name }}"/></td>
+                  <td><input class="form-control" name="theme_befree_use[{{ loop.index0 }}][kicker]" value="{{ row.kicker }}"/></td>
+                  <td><input class="form-control" name="theme_befree_use[{{ loop.index0 }}][keywords]" value="{{ row.keywords }}"/></td>
+                  <td><button type="button" class="btn btn-light" onclick="this.closest('tr').remove()"><i class="fa-solid fa-minus"></i></button></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-light" id="button-use-add"><i class="fa-solid fa-plus"></i> Add use</button>
+        </div>
+        <div class="tab-pane card-body" id="tab-hubs">
+          <h4>Hub 1</h4>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Name</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_name" value="{{ theme_befree_hub1_name }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Address</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_address" value="{{ theme_befree_hub1_address }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Hours</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_hours" value="{{ theme_befree_hub1_hours }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_phone" value="{{ theme_befree_hub1_phone }}"/></div></div>
+          <h4>Hub 2</h4>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Name</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_name" value="{{ theme_befree_hub2_name }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Address</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_address" value="{{ theme_befree_hub2_address }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Hours</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_hours" value="{{ theme_befree_hub2_hours }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_phone" value="{{ theme_befree_hub2_phone }}"/></div></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+document.getElementById('button-use-add').addEventListener('click', function () {
+  var body = document.querySelector('#use-table tbody');
+  var i = body.children.length;
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td><input class="form-control" name="theme_befree_use[' + i + '][code]" value=""/></td>'
+    + '<td><input class="form-control" name="theme_befree_use[' + i + '][name]" value=""/></td>'
+    + '<td><input class="form-control" name="theme_befree_use[' + i + '][kicker]" value="HEAVY"/></td>'
+    + '<td><input class="form-control" name="theme_befree_use[' + i + '][keywords]" value=""/></td>'
+    + '<td><button type="button" class="btn btn-light" onclick="this.closest(\'tr\').remove()"><i class="fa-solid fa-minus"></i></button></td>';
+  body.appendChild(tr);
+});
+</script>
+{{ footer }}

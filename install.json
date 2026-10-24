@@ -1,0 +1,8 @@
+{
+  "name": "BeFree OpenCart Theme",
+  "description": "BeFree is a free GPLv3 industrial storefront theme for OpenCart 4.0 and 4.1. Your categories stay in the main menu. Product Use is a second bar that searches the products you already sell. Generated with Grok (xAI).",
+  "version": "1.1.0",
+  "code": "befree",
+  "author": "BeFree contributors",
+  "link": "https://www.gnu.org/licenses/gpl-3.0.html"
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ title }}</title>
+  <base href="{{ base }}"/>
+  {% if description %}
+    <meta name="description" content="{{ description }}"/>
+  {% endif %}
+  {% if keywords %}
+    <meta name="keywords" content="{{ keywords }}"/>
+  {% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="{{ jquery }}" type="text/javascript"></script>
+  <link href="{{ bootstrap }}" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="{{ icons }}" rel="stylesheet" type="text/css"/>
+  <link href="{{ stylesheet }}" type="text/css" rel="stylesheet"/>
+  <link href="extension/befree/catalog/view/stylesheet/befree.css" type="text/css" rel="stylesheet"/>
+  <script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+  <script src="extension/befree/catalog/view/javascript/befree.js" type="text/javascript" defer></script>
+  {% if icon %}
+    <link rel="icon" href="{{ icon }}" type="image/png">
+  {% endif %}
+  {% for style in styles %}
+    <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}"/>
+  {% endfor %}
+  {% for script in scripts %}
+    <script src="{{ script.href }}" type="text/javascript"></script>
+  {% endfor %}
+  {% for link in links %}
+    <link href="{{ link.href }}" rel="{{ link.rel }}"/>
+  {% endfor %}
+  {% for analytic in analytics %}
+    {{ analytic }}
+  {% endfor %}
+  {% if befree is defined %}
+    <style>:root{--pn-gold:{{ befree.gold }};--pn-navy:{{ befree.navy }};--pn-ink:{{ befree.ink }};}</style>
+  {% endif %}
+</head>
+<body class="befree">
+<div id="container">
+  <div id="alert"></div>
+  <nav id="top">
+    <div class="container">
+      <div class="pn-top">
+        <div class="pn-top-links">
+          <a href="{{ contact }}"><i class="fa-solid fa-phone"></i> {{ telephone }}</a>
+          {% if befree is defined and befree.email %}
+            <a href="mailto:{{ befree.email }}">{{ befree.email }}</a>
+          {% endif %}
+          {% if befree is defined %}
+            <span class="pn-hubs">{{ befree.hub1_name }}{% if befree.hub2_name %} · {{ befree.hub2_name }}{% endif %}</span>
+          {% endif %}
+        </div>
+        <div class="pn-top-links">
+          <span class="pn-currency">{{ currency }}</span>
+          <span class="pn-language">{{ language }}</span>
+          <div class="dropdown">
+            <a href="{{ account }}" class="dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user"></i> {{ text_account }}</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              {% if not logged %}
+                <li><a href="{{ register }}" class="dropdown-item">{{ text_register }}</a></li>
+                <li><a href="{{ login }}" class="dropdown-item">{{ text_login }}</a></li>
+              {% else %}
+                <li><a href="{{ account }}" class="dropdown-item">{{ text_account }}</a></li>
+                <li><a href="{{ order }}" class="dropdown-item">{{ text_order }}</a></li>
+                <li><a href="{{ transaction }}" class="dropdown-item">{{ text_transaction }}</a></li>
+                <li><a href="{{ download }}" class="dropdown-item">{{ text_download }}</a></li>
+                <li><a href="{{ logout }}" class="dropdown-item">{{ text_logout }}</a></li>
+              {% endif %}
+            </ul>
+          </div>
+          <a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="fa-solid fa-heart"></i> <span class="d-none d-lg-inline">{{ text_wishlist }}</span></a>
+          <a href="{{ checkout }}" title="{{ text_checkout }}"><i class="fa-solid fa-share"></i> <span class="d-none d-lg-inline">{{ text_checkout }}</span></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <header>
+    <div class="container">
+      <div class="pn-header">
+        <div id="logo">
+          {% if logo %}
+            <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-fluid"/></a>
+          {% else %}
+            <a class="pn-wordmark" href="{{ home }}">{{ name }}</a>
+          {% endif %}
+        </div>
+        <div class="pn-search">{{ search }}</div>
+        <div id="cart" class="pn-cart">{{ cart }}</div>
+      </div>
+    </div>
+  </header>
+  {{ menu }}
+  {% if befree is defined and befree.show_uses and befree.uses %}
+    <div class="pn-use-bar">
+      <div class="container">
+        <div class="pn-use-scroll">
+          <span class="pn-kicker">Product use</span>
+          {% for use in befree.uses %}
+            <a href="{{ use.href }}">{{ use.name }} <em>{{ use.kicker }}</em></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <main>
+    {% if befree is defined and befree.phone %}
+      <a class="pn-call" href="tel:{{ befree.phone|replace({' ': '', '-': '', '.': ''}) }}"><i class="fa-solid fa-phone"></i> Call</a>
+    {% endif %}

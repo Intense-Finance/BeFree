@@ -1,0 +1,171 @@
+{{ header }}
+<div id="common-home" class="pn-home">
+{% if befree is defined %}
+  {% if befree.show_hero %}
+    <section class="pn-hero">
+      <div class="container pn-hero-grid">
+        <div>
+          <p class="pn-kicker">{{ befree.hero_kicker }}</p>
+          <h1>{{ befree.hero_title }}</h1>
+          <p class="pn-lead">Manufacturer categories stay in the bar above. Product Use, underneath, searches the same products by how a buyer asks for them.</p>
+          <div class="pn-hero-actions">
+            <a class="pn-btn" href="{{ befree.contact }}">Contact the store</a>
+            {% if befree.hub1_phone %}
+              <a class="pn-btn pn-btn-ghost" href="tel:{{ befree.hub1_phone|replace({' ': '', '.': '', '-': ''}) }}">{{ befree.hub1_phone }}</a>
+            {% endif %}
+          </div>
+          <dl class="pn-stats">
+            <div><dt>Highlight</dt><dd>{{ befree.highlight }}</dd></div>
+            <div><dt>Hubs</dt><dd>{{ befree.hub1_name }}{% if befree.hub2_name %} + {{ befree.hub2_name }}{% endif %}</dd></div>
+            <div><dt>Line</dt><dd>{{ befree.categories|length }} categories</dd></div>
+          </dl>
+        </div>
+        <aside class="pn-bench">
+          <p class="pn-kicker">Storefront</p>
+          <p class="pn-psi">{{ befree.highlight }}</p>
+          <p>{{ befree.hub1_name }}{% if befree.hub2_name %}<br>{{ befree.hub2_name }}{% endif %}</p>
+        </aside>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.categories %}
+    <section class="pn-band">
+      <div class="container">
+        <p class="pn-kicker">Manufacturer categories</p>
+        <h2>The catalog you already run</h2>
+        <div class="pn-cat-grid">
+          {% for category in befree.categories %}
+            <a href="{{ category.href }}"><strong>{{ category.name }}</strong><span>Open the category</span></a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.show_uses and befree.uses %}
+    <section class="pn-section">
+      <div class="container">
+        <p class="pn-kicker">Separate menu</p>
+        <h2>Product use</h2>
+        <p class="pn-lead">These are not extra OpenCart categories. They search the products you already sell.</p>
+        <div class="pn-use-grid">
+          {% for use in befree.uses %}
+            <a href="{{ use.href }}"><strong>{{ use.name }}</strong><em>{{ use.kicker }}</em></a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.shelf %}
+    <section class="pn-section">
+      <div class="container">
+        <p class="pn-kicker">On the shelf</p>
+        <h2>Current products</h2>
+        <div class="pn-shelf">
+          {% for product in befree.shelf %}
+            <a class="pn-shelf-card" href="{{ product.href }}">
+              {% if product.thumb %}<img src="{{ product.thumb }}" alt="{{ product.name }}">{% endif %}
+              <span class="pn-kicker">{{ product.model }}</span>
+              <strong>{{ product.name }}</strong>
+              <em>{{ product.price }}</em>
+              {% if product.bulk %}<small>Bulk — ask for a quote</small>{% endif %}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.show_proof %}
+    <section class="pn-band">
+      <div class="container">
+        <p class="pn-kicker">Sample only</p>
+        <h2>Replace these quotes</h2>
+        <div class="pn-quotes">
+          <figure><p class="pn-kicker">Sample</p><blockquote>Replace this with a review you have permission to publish.</blockquote><figcaption>Customer name · Company</figcaption></figure>
+          <figure><p class="pn-kicker">Sample</p><blockquote>Replace this with a review you have permission to publish.</blockquote><figcaption>Customer name · Company</figcaption></figure>
+          <figure><p class="pn-kicker">Sample</p><blockquote>Replace this with a review you have permission to publish.</blockquote><figcaption>Customer name · Company</figcaption></figure>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.show_matrix %}
+    <section class="pn-section">
+      <div class="container">
+        <p class="pn-kicker">Engineering note</p>
+        <h2>How this line compares</h2>
+        <div class="table-responsive">
+          <table class="pn-table">
+            <thead><tr><th>Metric</th><th>Ordinary option</th><th>{{ befree.highlight }}</th></tr></thead>
+            <tbody>
+              <tr><td>Fit</td><td>General stock</td><td>Chosen for the job the buyer named</td></tr>
+              <tr><td>Proof</td><td>Catalog claim only</td><td>Replace this row with a fact you can stand behind</td></tr>
+              <tr><td>Pack size</td><td>One size</td><td>Small packs and bulk, quoted before checkout</td></tr>
+              <tr><td>Support</td><td>A form</td><td>{{ befree.hub1_name }}{% if befree.hub2_name %} and {{ befree.hub2_name }}{% endif %}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.show_advisor %}
+    <section class="pn-section">
+      <div class="container">
+        <p class="pn-kicker">Sales tool</p>
+        <h2>Volume advisor</h2>
+        <p class="pn-lead">A rough yearly quantity. The real pack size still comes from the product label.</p>
+        <div class="pn-advisor" id="pn-advisor">
+          <label>Units in service <input type="range" min="1" max="80" value="12" id="pn-trucks"></label>
+          <label>Amount per service <input type="range" min="2" max="40" value="8" id="pn-gallons"></label>
+          <label>Services per year <input type="range" min="1" max="12" value="4" id="pn-services"></label>
+          <div>
+            <p class="pn-kicker">Units a year</p>
+            <p class="pn-psi" id="pn-annual">384</p>
+            <p id="pn-advice"></p>
+            <a class="pn-btn" href="{{ befree.contact }}">Ask the store for this pack</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if befree.show_hubs %}
+    <section class="pn-band">
+      <div class="container pn-hub-grid">
+        <article>
+          <p class="pn-kicker">First location</p>
+          <h3>{{ befree.hub1_name }}</h3>
+          <p>{{ befree.hub1_address }}</p>
+          <p>{{ befree.hub1_hours }}</p>
+          {% if befree.hub1_phone %}<a href="tel:{{ befree.hub1_phone|replace({' ': '', '.': '', '-': ''}) }}">{{ befree.hub1_phone }}</a>{% endif %}
+        </article>
+        <article>
+          <p class="pn-kicker">Second location</p>
+          <h3>{{ befree.hub2_name }}</h3>
+          <p>{{ befree.hub2_address }}</p>
+          <p>{{ befree.hub2_hours }}</p>
+          {% if befree.hub2_phone %}<a href="tel:{{ befree.hub2_phone|replace({' ': '', '.': '', '-': ''}) }}">{{ befree.hub2_phone }}</a>{% endif %}
+        </article>
+        <article>
+          <p class="pn-kicker">Questions</p>
+          <h3>Contact</h3>
+          <p>Bulk and product questions go through the store contact page.</p>
+          <a class="pn-btn" href="{{ befree.contact }}">Contact the store</a>
+        </article>
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
+
+<div class="container pn-modules">
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}{{ content_bottom }}</div>
+    {{ column_right }}
+  </div>
+</div>
+</div>
+{{ footer }}
