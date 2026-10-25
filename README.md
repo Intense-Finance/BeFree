@@ -5,6 +5,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
 Version 1.1.0.
+![image description](/BeFree1.png)
 
 ## License
 
