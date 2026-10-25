@@ -74,9 +74,11 @@ The same zip is used for every OpenCart 4 release. The theme switches install an
 | 4.1.0.0 and later | Startup stores a description. The view event receives 4 arguments. Variant products (`master_id`) are hidden so child SKUs are not listed as their own products. |
 
 That behavior follows the OpenCart source for those releases. It has not been click-tested on a live store of every 4.x build.
-![image description](/BeFree6.png)
 
 ## Install
+
+![image description](/BeFree6.png)
+
 
 The uploaded file name **must** be `befree.ocmod.zip`. OpenCart names the folder from that filename: `extension/befree/`. If you upload `my-theme.ocmod.zip`, the code becomes `my-theme` and the theme will not load.
 
