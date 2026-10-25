@@ -6,7 +6,7 @@ The extension **code** OpenCart uses is `befree`. The name people see in Extensi
 
 Version 1.1.0.
 ![image description](/BeFree1.png)
-
+![image description](/BeFree2.png)
 ## License
 
 GNU General Public License version 3. The full text is in [LICENSE](LICENSE).
@@ -26,6 +26,8 @@ Copyright (C) 2026 BeFree OpenCart Theme contributors.
 
 Generated with Grok (xAI). That credit is requested. It is not an extra restriction on the GPL.
 
+![image description](/BeFree3.png)
+
 ## What you may not assume
 
 This is not legal advice. For a contract, a marketplace dispute, or a trademark question, ask a lawyer in the countries where you distribute.
@@ -42,6 +44,7 @@ To redistribute this theme worldwide under GPLv3:
 8. Export and sanctions rules still apply to you as the distributor. A GPL theme does not exempt anyone from those laws.
 
 You do not need a separate paid license from the author to sell stores that use BeFree, or to put BeFree on a download site, as long as the GPL conditions above stay intact.
+![image description](/BeFree4.png)
 
 ## Credit
 
@@ -52,6 +55,8 @@ Please keep the credit. It is already in these places:
 - the comment at the top of each PHP file, `catalog/view/stylesheet/befree.css`, and the theme admin help text under Status
 
 It is not printed on the public storefront. Stores you build should not have to show a Grok badge to their customers.
+
+![image description](/BeFree5.png)
 
 ## Requirements
 
@@ -69,6 +74,7 @@ The same zip is used for every OpenCart 4 release. The theme switches install an
 | 4.1.0.0 and later | Startup stores a description. The view event receives 4 arguments. Variant products (`master_id`) are hidden so child SKUs are not listed as their own products. |
 
 That behavior follows the OpenCart source for those releases. It has not been click-tested on a live store of every 4.x build.
+![image description](/BeFree6.png)
 
 ## Install
 
