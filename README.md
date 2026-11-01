@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.1.0.
+Version 1.1.1.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -87,7 +87,7 @@ The uploaded file name **must** be `befree.ocmod.zip`. OpenCart names the folder
 3. Press Install on that package and wait until it finishes.
 4. Extensions → Extensions → choose Themes.
 5. BeFree OpenCart Theme → Install (+).
-6. Edit (pencil) → Status On → Save. Set the phone, colors, Product Use keywords, and the two hubs.
+6. Edit (pencil) → Status On → Save. Set the phone, colors, Product Use keywords, and the two hubs. Leave a text field blank to hide it on the storefront. Sample sentences in a form you have not saved yet are only starting values.
 7. System → Settings → edit the store → Theme = **BeFree OpenCart Theme** → Save.
 8. Dashboard → blue gear → clear the theme cache. Hard-refresh the storefront.
 9. If the previous theme still draws the page, edit that theme and turn its status off.
@@ -121,6 +121,13 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.1.1
+
+- A saved blank text field stays blank on the storefront. Hub names, the highlight, the hero kicker, and the hero title no longer snap back to "Hub 2", "Your line", or the other sample sentences after you clear them.
+- A field that has never been saved still shows its sample sentence. Saving that field blank is what clears it. A new install still opens with the samples filled in.
+- The home hero lead is a theme setting. Until you save it, the storefront keeps the sentence it already used.
+- Empty hub cards, empty stat blocks, and the dot or plus next to a missing hub name are not printed.
 
 ## Changes in 1.1.0
 

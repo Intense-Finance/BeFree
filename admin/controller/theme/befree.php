@@ -40,9 +40,14 @@ class Befree extends \Opencart\System\Engine\Controller {
 		$defaults = $this->defaults();
 
 		foreach ($defaults as $key => $value) {
+			// array_key_exists, not empty(): a saved blank must stay blank in
+			// the form. The sample value applies only when this store has
+			// never stored the key.
 			$data[$key] = array_key_exists($key, $setting) ? $setting[$key] : $value;
 		}
 
+		// An empty Product Use table is treated as not set up yet, so the
+		// sample rows come back. Hide that menu with its section switch.
 		if (empty($data['theme_befree_use']) || !is_array($data['theme_befree_use'])) {
 			$data['theme_befree_use'] = $defaults['theme_befree_use'];
 		}
@@ -147,6 +152,8 @@ class Befree extends \Opencart\System\Engine\Controller {
 			'theme_befree_ink'           => '#070d14',
 			'theme_befree_hero_kicker'   => 'INDUSTRIAL CATALOG',
 			'theme_befree_hero_title'    => 'The products you already sell, easier to find.',
+			// Keep this sentence identical to the hero_lead fallback in catalog/controller/startup/befree.php.
+			'theme_befree_hero_lead'     => 'Manufacturer categories stay in the bar above. Product Use, underneath, searches the same products by how a buyer asks for them.',
 			'theme_befree_highlight'     => 'Your line',
 			'theme_befree_hub1_name'     => 'Hub 1',
 			'theme_befree_hub1_address'  => 'Street, city, country',

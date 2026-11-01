@@ -79,6 +79,9 @@ class Befree extends \Opencart\System\Engine\Controller {
 		$store_id = (int)$this->config->get('config_store_id');
 		$uses = $this->config->get('theme_befree_use');
 
+		// A missing or empty Product Use table keeps the sample rows. Hide that
+		// menu with the Product use section switch. Saved blank text fields are
+		// different: text() lets those render nothing.
 		if (!is_array($uses) || !$uses) {
 			$uses = $this->defaultUses();
 		}
@@ -153,33 +156,25 @@ class Befree extends \Opencart\System\Engine\Controller {
 			return preg_match('/^#[0-9A-Fa-f]{6}$/', $value) ? $value : $fallback;
 		};
 
-		$text = function (string $key, string $fallback): string {
-			$value = $this->config->get($key);
-
-			if ($value === null || $value === '') {
-				return $fallback;
-			}
-
-			return (string)$value;
-		};
-
 		return [
-			'phone'        => $text('theme_befree_phone', ''),
-			'email'        => $text('theme_befree_email', ''),
+			'phone'        => $this->text('theme_befree_phone', ''),
+			'email'        => $this->text('theme_befree_email', ''),
 			'gold'         => $hex('theme_befree_gold', '#d7c785'),
 			'navy'         => $hex('theme_befree_navy', '#0a2344'),
 			'ink'          => $hex('theme_befree_ink', '#070d14'),
-			'hero_kicker'  => $text('theme_befree_hero_kicker', 'INDUSTRIAL CATALOG'),
-			'hero_title'   => $text('theme_befree_hero_title', 'The products you already sell, easier to find.'),
-			'highlight'    => $text('theme_befree_highlight', 'Your line'),
-			'hub1_name'    => $text('theme_befree_hub1_name', 'Hub 1'),
-			'hub1_address' => $text('theme_befree_hub1_address', ''),
-			'hub1_hours'   => $text('theme_befree_hub1_hours', ''),
-			'hub1_phone'   => $text('theme_befree_hub1_phone', ''),
-			'hub2_name'    => $text('theme_befree_hub2_name', 'Hub 2'),
-			'hub2_address' => $text('theme_befree_hub2_address', ''),
-			'hub2_hours'   => $text('theme_befree_hub2_hours', ''),
-			'hub2_phone'   => $text('theme_befree_hub2_phone', ''),
+			'hero_kicker'  => $this->text('theme_befree_hero_kicker', 'INDUSTRIAL CATALOG'),
+			'hero_title'   => $this->text('theme_befree_hero_title', 'The products you already sell, easier to find.'),
+			// Keep this sentence identical to theme_befree_hero_lead in admin/controller/theme/befree.php.
+			'hero_lead'    => $this->text('theme_befree_hero_lead', 'Manufacturer categories stay in the bar above. Product Use, underneath, searches the same products by how a buyer asks for them.'),
+			'highlight'    => $this->text('theme_befree_highlight', 'Your line'),
+			'hub1_name'    => $this->text('theme_befree_hub1_name', 'Hub 1'),
+			'hub1_address' => $this->text('theme_befree_hub1_address', ''),
+			'hub1_hours'   => $this->text('theme_befree_hub1_hours', ''),
+			'hub1_phone'   => $this->text('theme_befree_hub1_phone', ''),
+			'hub2_name'    => $this->text('theme_befree_hub2_name', 'Hub 2'),
+			'hub2_address' => $this->text('theme_befree_hub2_address', ''),
+			'hub2_hours'   => $this->text('theme_befree_hub2_hours', ''),
+			'hub2_phone'   => $this->text('theme_befree_hub2_phone', ''),
 			'show_hero'    => $flag('theme_befree_show_hero'),
 			'show_uses'    => $flag('theme_befree_show_uses'),
 			'show_proof'   => $flag('theme_befree_show_proof'),
@@ -205,6 +200,34 @@ class Befree extends \Opencart\System\Engine\Controller {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Copy the owner can clear.
+	 *
+	 * OpenCart 4 config->get() returns '' both when a key was never stored and
+	 * when it was saved blank, so config->has() is what tells those apart. A
+	 * missing key keeps $fallback, which is how a fresh install and a store
+	 * that has not saved this field yet still show the sample sentence. A
+	 * saved blank, including whitespace, is returned as '' and the templates
+	 * drop the text plus the separator or card around it.
+	 *
+	 * Colors and the bulk threshold are not handled here. An empty color or
+	 * bulk value would break the stylesheet or the shelf flag, so those keep
+	 * their own fallbacks.
+	 */
+	private function text(string $key, string $fallback): string {
+		if (!$this->config->has($key)) {
+			return $fallback;
+		}
+
+		$value = $this->config->get($key);
+
+		if (!is_string($value) && !is_int($value) && !is_float($value)) {
+			return $fallback;
+		}
+
+		return trim((string)$value);
 	}
 
 	private function ocVersion(): string {

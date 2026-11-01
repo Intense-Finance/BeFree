@@ -38,7 +38,8 @@
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Email</label><div class="col-sm-10"><input type="text" name="theme_befree_email" value="{{ theme_befree_email }}" class="form-control"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero kicker</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_kicker" value="{{ theme_befree_hero_kicker }}" class="form-control"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero title</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_title" value="{{ theme_befree_hero_title }}" class="form-control"/></div></div>
-          <div class="row mb-3"><label class="col-sm-2 col-form-label">Highlight stat</label><div class="col-sm-10"><input type="text" name="theme_befree_highlight" value="{{ theme_befree_highlight }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero lead</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_lead" value="{{ theme_befree_hero_lead }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Highlight stat</label><div class="col-sm-10"><input type="text" name="theme_befree_highlight" value="{{ theme_befree_highlight }}" class="form-control"/><div class="form-text">Leave the hero kicker, title, lead, or highlight blank to hide that line. A new install still starts with the sample text.</div></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Brass</label><div class="col-sm-10"><input type="color" name="theme_befree_gold" value="{{ theme_befree_gold }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Navy</label><div class="col-sm-10"><input type="color" name="theme_befree_navy" value="{{ theme_befree_navy }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Ink</label><div class="col-sm-10"><input type="color" name="theme_befree_ink" value="{{ theme_befree_ink }}"/></div></div>
@@ -81,6 +82,7 @@
           <button type="button" class="btn btn-light" id="button-use-add"><i class="fa-solid fa-plus"></i> Add use</button>
         </div>
         <div class="tab-pane card-body" id="tab-hubs">
+          <p class="text-muted">Leave a field blank to hide it on the storefront. A hub card is left out when its name, address, hours, and phone are all blank.</p>
           <h4>Hub 1</h4>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Name</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_name" value="{{ theme_befree_hub1_name }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Address</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_address" value="{{ theme_befree_hub1_address }}"/></div></div>
