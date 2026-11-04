@@ -134,3 +134,6 @@ Admin labels and the home-page chrome are English. Product names, categories, an
 - Renamed from the single-store build to BeFree for redistribution.
 - Removed the previous store's phone numbers, addresses, product claims, and named quotes from the defaults.
 - Made one package cover OpenCart 4.0 and 4.1.
+
+## Optional: wide header and footer (1600px)
+Off by default. To widen the top bar, header, menu and footer to 1600px on screens 1200px and wider, change `<body class="befree">` to `<body class="befree befree-wide">` in `catalog/view/template/common/header.twig`. Nothing changes for stores that don't add the class.
