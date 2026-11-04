@@ -280,3 +280,7 @@ body.befree .pn-call {
   body.befree-wide #menu > .container,
   body.befree-wide footer > .container { max-width: 1600px; padding-left: 24px; padding-right: 24px; }
 }
+
+/* Side-menu list items sit on white: use readable dark lime instead of neon lime. Colors only. */
+body.befree a.list-group-item:not(.active) { color: #3F6212; }
+body.befree a.list-group-item:not(.active):hover, body.befree a.list-group-item:not(.active):focus { color: #365314; }
