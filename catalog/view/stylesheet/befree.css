@@ -271,3 +271,12 @@ body.befree .pn-call {
   body.befree .pn-grid,
   body.befree .pn-stats { grid-template-columns: 1fr; }
 }
+
+/* Opt-in wide header/footer (1600px). Off by default, so existing stores look the same.
+   To turn it on, change <body class="befree"> to <body class="befree befree-wide"> in common/header.twig. */
+@media (min-width: 1200px) {
+  body.befree-wide #top > .container,
+  body.befree-wide header > .container,
+  body.befree-wide #menu > .container,
+  body.befree-wide footer > .container { max-width: 1600px; padding-left: 24px; padding-right: 24px; }
+}
