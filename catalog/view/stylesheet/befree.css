@@ -37,6 +37,8 @@ body.befree .pn-psi {
 
 body.befree a { color: var(--pn-gold); text-decoration: none; }
 body.befree a:hover { color: var(--pn-paper); }
+body.befree a.pn-map-link { color: inherit; }
+body.befree a.pn-map-link:hover { color: inherit; text-decoration: underline; }
 
 body.befree #top {
   background: #05080d;
@@ -111,6 +113,72 @@ body.befree #menu .nav-link:hover { color: var(--pn-gold); }
 body.befree #menu .dropdown-menu { background: var(--pn-card); border-color: var(--pn-line); }
 body.befree #menu .dropdown-item { color: var(--pn-paper); }
 body.befree .navbar-toggler { color: var(--pn-paper); border-color: var(--pn-line); }
+body.befree #menu .pn-burger { display: none; }
+body.befree #menu .pn-oc-title {
+  color: var(--pn-gold);
+  font: 700 22px/1 "Barlow Condensed", sans-serif;
+  letter-spacing: .16em;
+  text-decoration: none;
+}
+@media (min-width: 992px) {
+  body.befree #menu { flex-wrap: nowrap; }
+  body.befree #menu .pn-kicker { flex: 0 0 auto; white-space: nowrap; margin-right: 6px; }
+  body.befree #menu .navbar-nav { flex-wrap: wrap; align-items: center; }
+  body.befree #menu .navbar-nav > li > .nav-link { padding: 10px 8px; white-space: nowrap; }
+  body.befree #menu .dropdown-menu { max-height: 70vh; overflow-y: auto; }
+  body.befree #menu .dropdown-menu.pn-dd-cols { column-count: 3; column-gap: 8px; min-width: 560px; }
+  body.befree #menu .dropdown-menu.pn-dd-cols .dropdown-item { break-inside: avoid; }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  body.befree #menu .pn-kicker { display: none !important; }
+  body.befree #menu .navbar-nav > li > .nav-link { padding: 10px 4px; font-size: 13px; }
+}
+@media (max-width: 991.98px) {
+  body.befree #menu { min-height: 46px; padding: 4px 8px !important; }
+  body.befree #menu .pn-burger {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 6px;
+    background: rgba(0,0,0,.18);
+    color: var(--pn-paper);
+    font: 700 15px/1 "Barlow Condensed", sans-serif;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  body.befree #menu .pn-burger:focus-visible { outline: 2px solid var(--pn-gold); outline-offset: 2px; }
+  body.befree #menu .pn-offcanvas {
+    --bs-offcanvas-width: min(86vw, 340px);
+    background: var(--pn-ink);
+    color: var(--pn-paper);
+    border-right: 1px solid var(--pn-line);
+  }
+  body.befree #menu .pn-offcanvas .offcanvas-header { border-bottom: 1px solid var(--pn-line); }
+  body.befree #menu .pn-offcanvas .navbar-nav > li > .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 2px;
+    color: var(--pn-paper);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  body.befree #menu .pn-offcanvas .dropdown-menu {
+    position: static;
+    float: none;
+    margin: 0 0 6px;
+    padding: 4px 0 4px 14px;
+    background: transparent;
+    border: 0;
+    border-left: 2px solid var(--pn-line);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  body.befree #menu .pn-offcanvas .dropdown-item { white-space: normal; }
+  body.befree #menu .dropdown:hover .dropdown-menu:not(.show) { display: none; }
+}
 
 body.befree .pn-use-bar { background: rgba(7,13,20,.72); border-bottom: 1px solid var(--pn-line); }
 body.befree .pn-use-scroll { overflow-x: auto; justify-content: flex-start; padding: 8px 0; }
@@ -179,6 +247,7 @@ body.befree .pn-use-grid a:hover,
 body.befree .pn-shelf-card:hover { border-color: var(--pn-gold); }
 body.befree .pn-shelf-card img { height: 160px; object-fit: contain; background: var(--pn-raised); border-radius: 8px; }
 body.befree .pn-shelf-card em { color: var(--pn-gold); font-style: normal; font-size: 22px; font-family: "Barlow Condensed", sans-serif; }
+body.befree .pn-shelf-card s { color: var(--pn-muted); font-size: .72em; margin-right: .35em; text-decoration: line-through; }
 body.befree .pn-use-grid em { color: var(--pn-muted); font-style: normal; letter-spacing: .14em; font-size: 11px; }
 body.befree .pn-cat-grid strong,
 body.befree .pn-use-grid strong { font-family: "Barlow Condensed", sans-serif; font-size: 28px; font-weight: 600; }
@@ -280,6 +349,30 @@ body.befree .pn-call {
   body.befree-wide #menu > .container,
   body.befree-wide footer > .container { max-width: 1600px; padding-left: 24px; padding-right: 24px; }
 }
+
+/* Alerts sit on the dark storefront. Keep the text light and the surfaces dark. */
+body.befree #alert .alert-success { color: #ffffff !important; background-color: #1a1a1a !important; border-color: #555555 !important; }
+body.befree #alert .alert-danger { color: #ffffff !important; background-color: #5c0b0b !important; border-color: #8a3a3a !important; }
+body.befree #alert .alert a,
+body.befree #alert .alert i { color: #ffffff !important; }
+body.befree #alert .alert .btn-close { opacity: 1 !important; filter: invert(1) grayscale(1) brightness(2) !important; }
+
+/* Links on light surfaces: the theme gold can be too faint, so use the same dark lime as the side menu. */
+body.befree .card a,
+body.befree .card .text-success,
+body.befree .bg-white a,
+body.befree .bg-light a,
+body.befree .list-group-item a,
+body.befree .modal-content a,
+body.befree .popover a,
+body.befree .table-light a,
+body.befree .img-thumbnail a { color: #3F6212; }
+body.befree .card a:hover,
+body.befree .card a:focus,
+body.befree .bg-white a:hover,
+body.befree .bg-light a:hover,
+body.befree .list-group-item a:hover,
+body.befree .modal-content a:hover { color: #365314; text-decoration: underline; }
 
 /* Side-menu list items sit on white: use readable dark lime instead of neon lime. Colors only. */
 body.befree a.list-group-item:not(.active) { color: #3F6212; }

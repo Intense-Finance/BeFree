@@ -19,7 +19,7 @@
               <div><dt>Highlight</dt><dd>{{ befree.highlight }}</dd></div>
             {% endif %}
             {% if befree.hub1_name or befree.hub2_name %}
-              <div><dt>Hubs</dt><dd>{% if befree.hub1_name %}{{ befree.hub1_name }}{% endif %}{% if befree.hub1_name and befree.hub2_name %} + {% endif %}{% if befree.hub2_name %}{{ befree.hub2_name }}{% endif %}</dd></div>
+              <div><dt>Hubs</dt><dd>{% if befree.hub1_name %}{% if befree.hub1_map %}<a class="pn-map-link" href="{{ befree.hub1_map }}" target="_blank" rel="noopener">{{ befree.hub1_name }}</a>{% else %}{{ befree.hub1_name }}{% endif %}{% endif %}{% if befree.hub1_name and befree.hub2_name %} + {% endif %}{% if befree.hub2_name %}{% if befree.hub2_map %}<a class="pn-map-link" href="{{ befree.hub2_map }}" target="_blank" rel="noopener">{{ befree.hub2_name }}</a>{% else %}{{ befree.hub2_name }}{% endif %}{% endif %}</dd></div>
             {% endif %}
             <div><dt>Line</dt><dd>{{ befree.categories|length }} categories</dd></div>
           </dl>
@@ -27,7 +27,7 @@
         <aside class="pn-bench">
           <p class="pn-kicker">Storefront</p>
           {% if befree.highlight %}<p class="pn-psi">{{ befree.highlight }}</p>{% endif %}
-          {% if befree.hub1_name or befree.hub2_name %}<p>{% if befree.hub1_name %}{{ befree.hub1_name }}{% endif %}{% if befree.hub1_name and befree.hub2_name %}<br>{% endif %}{% if befree.hub2_name %}{{ befree.hub2_name }}{% endif %}</p>{% endif %}
+          {% if befree.hub1_name or befree.hub2_name %}<p>{% if befree.hub1_name %}{% if befree.hub1_map %}<a class="pn-map-link" href="{{ befree.hub1_map }}" target="_blank" rel="noopener">{{ befree.hub1_name }}</a>{% else %}{{ befree.hub1_name }}{% endif %}{% endif %}{% if befree.hub1_name and befree.hub2_name %}<br>{% endif %}{% if befree.hub2_name %}{% if befree.hub2_map %}<a class="pn-map-link" href="{{ befree.hub2_map }}" target="_blank" rel="noopener">{{ befree.hub2_name }}</a>{% else %}{{ befree.hub2_name }}{% endif %}{% endif %}</p>{% endif %}
         </aside>
       </div>
     </section>
@@ -73,7 +73,7 @@
               {% if product.thumb %}<img src="{{ product.thumb }}" alt="{{ product.name }}">{% endif %}
               <span class="pn-kicker">{{ product.model }}</span>
               <strong>{{ product.name }}</strong>
-              <em>{{ product.price }}</em>
+              <em>{% if product.special %}<s>{{ product.price }}</s> {{ product.special }}{% else %}{{ product.price }}{% endif %}</em>
               {% if product.bulk %}<small>Bulk — ask for a quote</small>{% endif %}
             </a>
           {% endfor %}
@@ -108,7 +108,7 @@
               <tr><td>Fit</td><td>General stock</td><td>Chosen for the job the buyer named</td></tr>
               <tr><td>Proof</td><td>Catalog claim only</td><td>Replace this row with a fact you can stand behind</td></tr>
               <tr><td>Pack size</td><td>One size</td><td>Small packs and bulk, quoted before checkout</td></tr>
-              <tr><td>Support</td><td>A form</td><td>{% if befree.hub1_name %}{{ befree.hub1_name }}{% endif %}{% if befree.hub1_name and befree.hub2_name %} and {% endif %}{% if befree.hub2_name %}{{ befree.hub2_name }}{% endif %}</td></tr>
+              <tr><td>Support</td><td>A form</td><td>{% if befree.hub1_name %}{% if befree.hub1_map %}<a class="pn-map-link" href="{{ befree.hub1_map }}" target="_blank" rel="noopener">{{ befree.hub1_name }}</a>{% else %}{{ befree.hub1_name }}{% endif %}{% endif %}{% if befree.hub1_name and befree.hub2_name %} and {% endif %}{% if befree.hub2_name %}{% if befree.hub2_map %}<a class="pn-map-link" href="{{ befree.hub2_map }}" target="_blank" rel="noopener">{{ befree.hub2_name }}</a>{% else %}{{ befree.hub2_name }}{% endif %}{% endif %}</td></tr>
             </tbody>
           </table>
         </div>
@@ -143,7 +143,7 @@
         {% if befree.hub1_name or befree.hub1_address or befree.hub1_hours or befree.hub1_phone %}
           <article>
             <p class="pn-kicker">First location</p>
-            {% if befree.hub1_name %}<h3>{{ befree.hub1_name }}</h3>{% endif %}
+            {% if befree.hub1_name %}<h3>{% if befree.hub1_map %}<a class="pn-map-link" href="{{ befree.hub1_map }}" target="_blank" rel="noopener">{{ befree.hub1_name }}</a>{% else %}{{ befree.hub1_name }}{% endif %}</h3>{% endif %}
             {% if befree.hub1_address %}<p>{{ befree.hub1_address }}</p>{% endif %}
             {% if befree.hub1_hours %}<p>{{ befree.hub1_hours }}</p>{% endif %}
             {% if befree.hub1_phone %}<a href="tel:{{ befree.hub1_phone|replace({' ': '', '.': '', '-': ''}) }}">{{ befree.hub1_phone }}</a>{% endif %}
@@ -152,7 +152,7 @@
         {% if befree.hub2_name or befree.hub2_address or befree.hub2_hours or befree.hub2_phone %}
           <article>
             <p class="pn-kicker">Second location</p>
-            {% if befree.hub2_name %}<h3>{{ befree.hub2_name }}</h3>{% endif %}
+            {% if befree.hub2_name %}<h3>{% if befree.hub2_map %}<a class="pn-map-link" href="{{ befree.hub2_map }}" target="_blank" rel="noopener">{{ befree.hub2_name }}</a>{% else %}{{ befree.hub2_name }}{% endif %}</h3>{% endif %}
             {% if befree.hub2_address %}<p>{{ befree.hub2_address }}</p>{% endif %}
             {% if befree.hub2_hours %}<p>{{ befree.hub2_hours }}</p>{% endif %}
             {% if befree.hub2_phone %}<a href="tel:{{ befree.hub2_phone|replace({' ': '', '.': '', '-': ''}) }}">{{ befree.hub2_phone }}</a>{% endif %}

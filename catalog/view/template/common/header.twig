@@ -12,6 +12,71 @@
   {% if keywords %}
     <meta name="keywords" content="{{ keywords }}"/>
   {% endif %}
+  {% set share_canonical = links|filter(link => link.rel == 'canonical')|first %}
+  {% set share_product = befree_share is defined and befree_share.product ? befree_share.product : null %}
+  {% if share_canonical %}
+    {% set share_url = share_canonical.href %}
+  {% elseif share_product and share_product.url %}
+    {% set share_url = share_product.url %}
+  {% elseif title == name %}
+    {% set share_url = base %}
+  {% else %}
+    {% set share_url = '' %}
+  {% endif %}
+  {% set share_title = (share_product and share_product.name ? share_product.name : (title ?: name))|striptags %}
+  {% set share_desc = '' %}
+  {% if share_product and share_product.description %}
+    {% set share_desc = share_product.description %}
+  {% elseif description %}
+    {% set share_desc = description %}
+  {% elseif befree is defined and befree.share_description %}
+    {% set share_desc = befree.share_description %}
+  {% endif %}
+  {% set share_image = '' %}
+  {% set share_width = '' %}
+  {% set share_height = '' %}
+  {% if share_product and share_product.image %}
+    {% set share_image = share_product.image %}
+    {% set share_width = share_product.width %}
+    {% set share_height = share_product.height %}
+  {% elseif befree is defined and befree.share_image %}
+    {% set share_image = befree.share_image %}
+  {% elseif logo %}
+    {% set share_image = logo %}
+  {% endif %}
+  <meta name="twitter:card" content="{{ share_image ? 'summary_large_image' : 'summary' }}"/>
+  <meta property="og:type" content="{{ share_product ? 'product' : 'website' }}"/>
+  <meta property="og:site_name" content="{{ name }}"/>
+  {% if share_url %}
+    <meta property="og:url" content="{{ share_url }}"/>
+  {% endif %}
+  {% if share_title %}
+    <meta property="og:title" content="{{ share_title }}"/>
+    <meta name="twitter:title" content="{{ share_title }}"/>
+  {% endif %}
+  {% if share_desc %}
+    <meta property="og:description" content="{{ share_desc|striptags }}"/>
+    <meta name="twitter:description" content="{{ share_desc|striptags }}"/>
+  {% endif %}
+  {% if share_image %}
+    <meta property="og:image" content="{{ share_image }}"/>
+    <meta name="twitter:image" content="{{ share_image }}"/>
+    {% if share_width and share_height %}
+      <meta property="og:image:width" content="{{ share_width }}"/>
+      <meta property="og:image:height" content="{{ share_height }}"/>
+    {% endif %}
+    {% if share_title %}
+      <meta property="og:image:alt" content="{{ share_title }}"/>
+      <meta name="twitter:image:alt" content="{{ share_title }}"/>
+    {% endif %}
+  {% endif %}
+  {% if share_product and share_product.amount %}
+    <meta property="product:price:amount" content="{{ share_product.amount }}"/>
+    <meta property="product:price:currency" content="{{ share_product.currency }}"/>
+  {% endif %}
+  {% if befree is defined and befree.twitter %}
+    <meta name="twitter:site" content="{{ befree.twitter }}"/>
+  {% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
@@ -53,7 +118,7 @@
             <a href="mailto:{{ befree.email }}">{{ befree.email }}</a>
           {% endif %}
           {% if befree is defined and (befree.hub1_name or befree.hub2_name) %}
-            <span class="pn-hubs">{% if befree.hub1_name %}{{ befree.hub1_name }}{% endif %}{% if befree.hub1_name and befree.hub2_name %} · {% endif %}{% if befree.hub2_name %}{{ befree.hub2_name }}{% endif %}</span>
+            <span class="pn-hubs">{% if befree.hub1_name %}{% if befree.hub1_map %}<a class="pn-map-link" href="{{ befree.hub1_map }}" target="_blank" rel="noopener">{{ befree.hub1_name }}</a>{% else %}{{ befree.hub1_name }}{% endif %}{% endif %}{% if befree.hub1_name and befree.hub2_name %} · {% endif %}{% if befree.hub2_name %}{% if befree.hub2_map %}<a class="pn-map-link" href="{{ befree.hub2_map }}" target="_blank" rel="noopener">{{ befree.hub2_name }}</a>{% else %}{{ befree.hub2_name }}{% endif %}{% endif %}</span>
           {% endif %}
         </div>
         <div class="pn-top-links">

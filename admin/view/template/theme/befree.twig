@@ -36,6 +36,9 @@
           </div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input type="text" name="theme_befree_phone" value="{{ theme_befree_phone }}" class="form-control"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Email</label><div class="col-sm-10"><input type="text" name="theme_befree_email" value="{{ theme_befree_email }}" class="form-control"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">X handle</label><div class="col-sm-10"><input type="text" name="theme_befree_twitter" value="{{ theme_befree_twitter }}" class="form-control" placeholder="@handle"/><div class="form-text">Optional. A public X handle, with or without @. Leave blank to omit twitter:site.</div></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Share image</label><div class="col-sm-10"><input type="url" name="theme_befree_share_image" value="{{ theme_befree_share_image }}" class="form-control" placeholder="https://"/><div class="form-text">Optional https URL used when a page has no product photo. Leave blank to use the store logo.</div></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Share description</label><div class="col-sm-10"><input type="text" name="theme_befree_share_description" value="{{ theme_befree_share_description }}" class="form-control"/><div class="form-text">Optional. Used only when a page has no meta description. Leave blank to omit it.</div></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero kicker</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_kicker" value="{{ theme_befree_hero_kicker }}" class="form-control"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero title</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_title" value="{{ theme_befree_hero_title }}" class="form-control"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hero lead</label><div class="col-sm-10"><input type="text" name="theme_befree_hero_lead" value="{{ theme_befree_hero_lead }}" class="form-control"/></div></div>
@@ -82,17 +85,19 @@
           <button type="button" class="btn btn-light" id="button-use-add"><i class="fa-solid fa-plus"></i> Add use</button>
         </div>
         <div class="tab-pane card-body" id="tab-hubs">
-          <p class="text-muted">Leave a field blank to hide it on the storefront. A hub card is left out when its name, address, hours, and phone are all blank.</p>
+          <p class="text-muted">Leave a field blank to hide it on the storefront. A hub card is left out when its name, address, hours, and phone are all blank. A map link is used only when that hub has a name.</p>
           <h4>Hub 1</h4>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Name</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_name" value="{{ theme_befree_hub1_name }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Address</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_address" value="{{ theme_befree_hub1_address }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hours</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_hours" value="{{ theme_befree_hub1_hours }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub1_phone" value="{{ theme_befree_hub1_phone }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Map link</label><div class="col-sm-10"><input type="url" class="form-control" name="theme_befree_hub1_map" value="{{ theme_befree_hub1_map }}" placeholder="https://"/><div class="form-text">Optional http or https URL. Leave blank to show the name as plain text.</div></div></div>
           <h4>Hub 2</h4>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Name</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_name" value="{{ theme_befree_hub2_name }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Address</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_address" value="{{ theme_befree_hub2_address }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Hours</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_hours" value="{{ theme_befree_hub2_hours }}"/></div></div>
           <div class="row mb-3"><label class="col-sm-2 col-form-label">Phone</label><div class="col-sm-10"><input class="form-control" name="theme_befree_hub2_phone" value="{{ theme_befree_hub2_phone }}"/></div></div>
+          <div class="row mb-3"><label class="col-sm-2 col-form-label">Map link</label><div class="col-sm-10"><input type="url" class="form-control" name="theme_befree_hub2_map" value="{{ theme_befree_hub2_map }}" placeholder="https://"/><div class="form-text">Optional http or https URL. Leave blank to show the name as plain text.</div></div></div>
         </div>
       </div>
     </form>

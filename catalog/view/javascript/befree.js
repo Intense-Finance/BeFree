@@ -26,3 +26,21 @@
     paint();
   }
 })();
+
+/* Optional obfuscated address: <a class="bf-em" data-e="reversed user|domain">. No address is shipped. */
+(function () {
+  function decodeAddresses() {
+    document.querySelectorAll('a.bf-em[data-e]').forEach(function (anchor) {
+      var raw = anchor.getAttribute('data-e') || '';
+      var email = raw.split('').reverse().join('').replace('|', '@');
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        anchor.setAttribute('href', 'mailto:' + email);
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', decodeAddresses);
+  } else {
+    decodeAddresses();
+  }
+})();
