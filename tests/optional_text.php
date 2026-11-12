@@ -74,6 +74,18 @@ namespace {
 		return $result;
 	}
 
+	function callPrivate(OcConfig $config, string $name, string $arg): string {
+		$controller = new Opencart\Catalog\Controller\Extension\Befree\Startup\Befree($config);
+		$method = new ReflectionMethod($controller, $name);
+		$result = $method->invoke($controller, $arg);
+
+		if (!is_string($result)) {
+			throw new RuntimeException($name . '() did not return a string');
+		}
+
+		return $result;
+	}
+
 	$lead = 'Manufacturer categories stay in the bar above. Product Use, underneath, searches the same products by how a buyer asks for them.';
 	$config = new OcConfig();
 
@@ -134,7 +146,66 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.1.2"'), 'install.json version is 1.1.2');
+	check(str_contains($install, '"version": "1.2.0"'), 'install.json version is 1.2.0');
+	check(str_contains($admin, "'theme_befree_twitter'"), 'admin default includes an x handle setting');
+	check(str_contains($admin, "'theme_befree_hub1_map'"), 'admin default includes a hub map setting');
+	check(str_contains($admin_twig, 'name="theme_befree_twitter"'), 'admin form edits the x handle');
+	check(str_contains($admin_twig, 'name="theme_befree_hub1_map"'), 'admin form edits the hub map');
+	check(str_contains($admin_twig, 'name="theme_befree_share_image"'), 'admin form edits the share image');
+	check(str_contains($home, 'product.special'), 'home shelf can print a special price');
+	check(str_contains($catalog, 'function twitterHandle'), 'storefront validates the x handle');
+	check(str_contains($catalog, 'function httpUrl'), 'storefront validates public urls');
+
+	check(textOf(new OcConfig(), 'theme_befree_twitter', '') === '', 'missing x handle stays blank');
+	check(textOf(new OcConfig(), 'theme_befree_hub1_map', '') === '', 'missing hub map stays blank');
+	check(textOf(new OcConfig(), 'theme_befree_share_description', '') === '', 'missing share description stays blank');
+	check(textOf(new OcConfig(), 'theme_befree_share_image', '') === '', 'missing share image stays blank');
+
+	$blank = new OcConfig();
+	check(callPrivate($blank, 'httpUrl', '') === '', 'blank url stays blank');
+	check(callPrivate($blank, 'httpUrl', 'https://example.com/map') === 'https://example.com/map', 'https url is kept');
+	check(callPrivate($blank, 'httpUrl', 'http://example.com/map') === 'http://example.com/map', 'http url is kept');
+	check(callPrivate($blank, 'httpUrl', 'javascript:alert(1)') === '', 'javascript url is dropped');
+	check(callPrivate($blank, 'httpUrl', 'https://example.com/a b') === '', 'url with a space is dropped');
+	check(callPrivate($blank, 'twitterHandle', '') === '', 'blank x handle stays blank');
+	check(callPrivate($blank, 'twitterHandle', '@ExampleStore') === '@ExampleStore', 'x handle keeps a leading @');
+	check(callPrivate($blank, 'twitterHandle', 'ExampleStore') === '@ExampleStore', 'x handle gains a leading @');
+	check(callPrivate($blank, 'twitterHandle', 'not a handle!') === '', 'invalid x handle is dropped');
+
+	$bundle = '';
+	$scan = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS));
+
+	foreach ($scan as $file) {
+		$path = $file->getPathname();
+
+		if (str_contains($path, DIRECTORY_SEPARATOR . '.git' . DIRECTORY_SEPARATOR) || str_contains($path, DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR)) {
+			continue;
+		}
+
+		$ext = strtolower((string)$file->getExtension());
+
+		if (!in_array($ext, ['php', 'twig', 'css', 'js', 'json', 'md'], true)) {
+			continue;
+		}
+
+		$bundle .= (string)file_get_contents($path);
+	}
+
+	foreach ([
+		'slop' . 'core',
+		'GT' . 'M-MSJZ6HTD',
+		'G-PQYN' . 'MDGBZ2',
+		'IF' . 'Finance',
+		'if' . '.finance',
+		'maps' . '.app.goo.gl',
+		'pri' . 'ntify',
+		'Age' . 'nC',
+		'EVE-' . '1000',
+		'Piper' . 'Pepper',
+		'Intense ' . 'Finance'
+	] as $needle) {
+		check(stripos($bundle, $needle) === false, 'theme text has no store-specific value');
+	}
 
 	if ($failures > 0) {
 		fwrite(STDERR, "$failures failed\n");

@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.1.2.
+Version 1.2.0.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -87,7 +87,7 @@ The uploaded file name **must** be `befree.ocmod.zip`. OpenCart names the folder
 3. Press Install on that package and wait until it finishes.
 4. Extensions → Extensions → choose Themes.
 5. BeFree OpenCart Theme → Install (+).
-6. Edit (pencil) → Status On → Save. Set the phone, colors, Product Use keywords, and the two hubs. Leave a text field blank to hide it on the storefront. Sample sentences in a form you have not saved yet are only starting values.
+6. Edit (pencil) → Status On → Save. Set the phone, colors, Product Use keywords, and the two hubs. Leave a text field blank to hide it on the storefront. Sample sentences in a form you have not saved yet are only starting values. The X handle, share image, share description, and hub map links are optional and start blank.
 7. System → Settings → edit the store → Theme = **BeFree OpenCart Theme** → Save.
 8. Dashboard → blue gear → clear the theme cache. Hard-refresh the storefront.
 9. If the previous theme still draws the page, edit that theme and turn its status off.
@@ -121,6 +121,16 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.0
+
+- Product pages publish their own share card (Open Graph and X): the product name, a short plain-text description, a square photo, and the price. Other pages use the page title, the meta description, and the store logo when the store has one. A share image URL, a fallback description, and an X handle are theme settings. All three start blank, and a value that is not a public URL or a handle is ignored.
+- Shelf cards show a special price when the product has one. The regular price is struck through.
+- Each hub can take an optional map link. Paste an http or https URL. Leave it blank and the hub name stays plain text.
+- On a small screen the category menu opens in an off-canvas panel. On a wide screen it stays one wrapping row. A category with more than eight children is shown in columns, and a long menu scrolls.
+- Popup alerts use the dark theme. Links on light surfaces use the same dark lime as the side menu so they stay readable.
+- A link with class `bf-em` and a reversed `data-e` value (`user|domain`, characters reversed) becomes a `mailto:` link. This package does not include an address.
+- The 1600px header and footer stay off until you add the class `befree-wide`. See below.
 
 ## Changes in 1.1.2
 

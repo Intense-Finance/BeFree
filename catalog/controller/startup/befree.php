@@ -50,6 +50,15 @@ class Befree extends \Opencart\System\Engine\Controller {
 			$args['befree'] = $this->pack();
 		}
 
+		// Share cards are header-only. A failure here must not stop the page.
+		if ($route === 'common/header') {
+			try {
+				$args['befree_share'] = $this->share();
+			} catch (\Throwable $e) {
+				$args['befree_share'] = ['product' => []];
+			}
+		}
+
 		$route = 'extension/befree/' . $route;
 	}
 
@@ -116,9 +125,11 @@ class Befree extends \Opencart\System\Engine\Controller {
 
 		$shelf = [];
 		$master = $this->masterSql('p');
-		$products = $this->db->query("SELECT p.`product_id`, p.`model`, p.`price`, p.`image`, p.`tax_class_id`, pd.`name` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_to_store` p2s ON (p.`product_id` = p2s.`product_id`) WHERE p.`status` = '1' AND p.`date_available` <= NOW() AND pd.`language_id` = '" . $language_id . "' AND p2s.`store_id` = '" . $store_id . "'" . $master . " ORDER BY p.`sort_order` ASC, LCASE(pd.`name`) ASC LIMIT 9");
+		$group_id = (int)$this->config->get('config_customer_group_id');
+		$products = $this->db->query("SELECT p.`product_id`, p.`model`, p.`price`, p.`image`, p.`tax_class_id`, pd.`name`, (SELECT ps.`price` FROM `" . DB_PREFIX . "product_special` ps WHERE ps.`product_id` = p.`product_id` AND ps.`customer_group_id` = '" . $group_id . "' AND ((ps.`date_start` = '0000-00-00' OR ps.`date_start` < NOW()) AND (ps.`date_end` = '0000-00-00' OR ps.`date_end` > NOW())) ORDER BY ps.`priority` ASC, ps.`price` ASC LIMIT 1) AS `special` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_to_store` p2s ON (p.`product_id` = p2s.`product_id`) WHERE p.`status` = '1' AND p.`date_available` <= NOW() AND pd.`language_id` = '" . $language_id . "' AND p2s.`store_id` = '" . $store_id . "'" . $master . " ORDER BY p.`sort_order` ASC, LCASE(pd.`name`) ASC LIMIT 9");
 
 		$this->load->model('tool/image');
+		$currency = $this->session->data['currency'] ?? $this->config->get('config_currency');
 
 		foreach ($products->rows as $row) {
 			if ($row['image'] && is_file(DIR_IMAGE . $row['image'])) {
@@ -127,16 +138,18 @@ class Befree extends \Opencart\System\Engine\Controller {
 				$thumb = '';
 			}
 
-			$raw = $this->tax->calculate((float)$row['price'], (int)$row['tax_class_id'], (bool)$this->config->get('config_tax'));
-			$currency = $this->session->data['currency'] ?? $this->config->get('config_currency');
+			$regular = $this->tax->calculate((float)$row['price'], (int)$row['tax_class_id'], (bool)$this->config->get('config_tax'));
+			$special_raw = ($row['special'] !== null && $row['special'] !== '') ? (float)$row['special'] : 0.0;
+			$special = $special_raw > 0 ? $this->tax->calculate($special_raw, (int)$row['tax_class_id'], (bool)$this->config->get('config_tax')) : 0.0;
 
 			$shelf[] = [
-				'name'  => $row['name'],
-				'model' => $row['model'],
-				'thumb' => $thumb,
-				'price' => $this->currency->format($raw, $currency),
-				'href'  => $this->url->link('product/product', 'language=' . $lang . '&product_id=' . (int)$row['product_id']),
-				'bulk'  => $raw >= (float)($this->config->get('theme_befree_bulk') ?: 1000)
+				'name'    => $row['name'],
+				'model'   => $row['model'],
+				'thumb'   => $thumb,
+				'price'   => $this->currency->format($regular, $currency),
+				'special' => $special > 0 ? $this->currency->format($special, $currency) : '',
+				'href'    => $this->url->link('product/product', 'language=' . $lang . '&product_id=' . (int)$row['product_id']),
+				'bulk'    => ($special > 0 ? $special : $regular) >= (float)($this->config->get('theme_befree_bulk') ?: 1000)
 			];
 		}
 
@@ -157,8 +170,11 @@ class Befree extends \Opencart\System\Engine\Controller {
 		};
 
 		return [
-			'phone'        => $this->text('theme_befree_phone', ''),
-			'email'        => $this->text('theme_befree_email', ''),
+			'phone'              => $this->text('theme_befree_phone', ''),
+			'email'              => $this->text('theme_befree_email', ''),
+			'share_description'  => $this->text('theme_befree_share_description', ''),
+			'share_image'        => $this->httpUrl($this->text('theme_befree_share_image', '')),
+			'twitter'            => $this->twitterHandle($this->text('theme_befree_twitter', '')),
 			'gold'         => $hex('theme_befree_gold', '#d7c785'),
 			'navy'         => $hex('theme_befree_navy', '#0a2344'),
 			'ink'          => $hex('theme_befree_ink', '#070d14'),
@@ -171,10 +187,12 @@ class Befree extends \Opencart\System\Engine\Controller {
 			'hub1_address' => $this->text('theme_befree_hub1_address', ''),
 			'hub1_hours'   => $this->text('theme_befree_hub1_hours', ''),
 			'hub1_phone'   => $this->text('theme_befree_hub1_phone', ''),
+			'hub1_map'     => $this->httpUrl($this->text('theme_befree_hub1_map', '')),
 			'hub2_name'    => $this->text('theme_befree_hub2_name', 'Hub 2'),
 			'hub2_address' => $this->text('theme_befree_hub2_address', ''),
 			'hub2_hours'   => $this->text('theme_befree_hub2_hours', ''),
 			'hub2_phone'   => $this->text('theme_befree_hub2_phone', ''),
+			'hub2_map'     => $this->httpUrl($this->text('theme_befree_hub2_map', '')),
 			'show_hero'    => $flag('theme_befree_show_hero'),
 			'show_uses'    => $flag('theme_befree_show_uses'),
 			'show_proof'   => $flag('theme_befree_show_proof'),
@@ -228,6 +246,162 @@ class Befree extends \Opencart\System\Engine\Controller {
 		}
 
 		return trim((string)$value);
+	}
+
+	/**
+	 * Open Graph and X card data for the header.
+	 *
+	 * Product fields are filled only on an enabled product page. Other pages
+	 * use the document title, meta description, and logo in the header template.
+	 * A failure leaves product as an empty array so the generic card still renders.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function share(): array {
+		try {
+			$product = $this->shareProduct();
+		} catch (\Throwable $e) {
+			$product = [];
+		}
+
+		return ['product' => $product];
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private function shareProduct(): array {
+		$route = str_replace('|', '.', (string)($this->request->get['route'] ?? ''));
+
+		if ($route !== 'product/product' || empty($this->request->get['product_id'])) {
+			return [];
+		}
+
+		$product_id = (int)$this->request->get['product_id'];
+
+		$this->load->model('catalog/product');
+
+		$info = $this->model_catalog_product->getProduct($product_id);
+
+		if (!$info || (int)($info['status'] ?? 0) !== 1 || trim((string)($info['name'] ?? '')) === '') {
+			return [];
+		}
+
+		$name = $this->shareText((string)$info['name']);
+		$description = $this->shareText((string)($info['meta_description'] ?? ''));
+
+		if ($description === '') {
+			$description = $this->shareText((string)($info['description'] ?? ''));
+		}
+
+		if (oc_strlen($description) > 160) {
+			$cut = oc_substr($description, 0, 160);
+			$space = oc_strrpos($cut, ' ');
+			$description = rtrim(($space !== false && $space > 100) ? oc_substr($cut, 0, $space) : $cut, " ,;:-") . '…';
+		}
+
+		$image = '';
+		$width = '';
+		$height = '';
+
+		if (!empty($info['image']) && is_file(DIR_IMAGE . (string)$info['image'])) {
+			$this->load->model('tool/image');
+
+			$image = $this->absoluteUrl((string)$this->model_tool_image->resize((string)$info['image'], 1200, 1200));
+
+			if ($image !== '') {
+				$width = '1200';
+				$height = '1200';
+			}
+		}
+
+		$amount = '';
+		$currency = '';
+
+		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+			$base = (float)($info['special'] ?? 0) > 0 ? (float)$info['special'] : (float)$info['price'];
+			$currency = (string)($this->session->data['currency'] ?? $this->config->get('config_currency'));
+
+			if ($this->currency->has($currency)) {
+				$value = $this->currency->format($this->tax->calculate($base, (int)$info['tax_class_id'], (bool)$this->config->get('config_tax')), $currency, 0, false);
+				$amount = number_format((float)$value, 2, '.', '');
+			} else {
+				$currency = '';
+			}
+		}
+
+		return [
+			'name'        => $name,
+			'description' => $description,
+			'image'       => $image,
+			'width'       => $width,
+			'height'      => $height,
+			'url'         => html_entity_decode((string)$this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), ENT_QUOTES, 'UTF-8'),
+			'amount'      => $amount,
+			'currency'    => $amount !== '' ? $currency : ''
+		];
+	}
+
+	private function shareText(string $text): string {
+		for ($i = 0; $i < 3; $i++) {
+			$decoded = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+			if ($decoded === $text) {
+				break;
+			}
+
+			$text = $decoded;
+		}
+
+		$with_breaks = preg_replace('/<(br|\/p|\/div|\/li|\/h[1-6])\b[^>]*>/i', ' ', $text);
+		$text = strip_tags($with_breaks === null ? $text : $with_breaks);
+		$collapsed = preg_replace('/\s+/u', ' ', $text);
+
+		return trim($collapsed === null ? $text : $collapsed);
+	}
+
+	private function absoluteUrl(string $url): string {
+		$url = trim($url);
+
+		if ($url === '') {
+			return '';
+		}
+
+		if (strpos($url, '//') === 0) {
+			return 'https:' . $url;
+		}
+
+		if (preg_match('#^https?://#i', $url) === 1) {
+			return $url;
+		}
+
+		return rtrim((string)$this->config->get('config_url'), '/') . '/' . ltrim($url, '/');
+	}
+
+	/**
+	 * A public http or https URL, or '' when the value is blank or not a plain URL.
+	 */
+	private function httpUrl(string $value): string {
+		$value = trim($value);
+
+		if ($value === '' || preg_match('#^https?://[^\s<>"\'\\\\]+$#i', $value) !== 1) {
+			return '';
+		}
+
+		return $value;
+	}
+
+	/**
+	 * An X handle for twitter:site, or '' when the value is blank or not a handle.
+	 */
+	private function twitterHandle(string $value): string {
+		$handle = ltrim(trim($value), '@');
+
+		if ($handle === '' || preg_match('/^[A-Za-z0-9_]{1,15}$/', $handle) !== 1) {
+			return '';
+		}
+
+		return '@' . $handle;
 	}
 
 	private function ocVersion(): string {
