@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.1.1.
+Version 1.1.2.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,11 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.1.2
+
+- Optional 1600px wide header and footer. It is off by default, so existing stores look the same. Add the `befree-wide` class to the body tag to turn it on (see "Optional: wide header and footer" below).
+- Side-menu links on light backgrounds use a readable dark lime (#3F6212, hover #365314).
 
 ## Changes in 1.1.1
 

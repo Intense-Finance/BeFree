@@ -134,7 +134,7 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.1.1"'), 'install.json version is 1.1.1');
+	check(str_contains($install, '"version": "1.1.2"'), 'install.json version is 1.1.2');
 
 	if ($failures > 0) {
 		fwrite(STDERR, "$failures failed\n");
