@@ -132,6 +132,11 @@ Admin labels and the home-page chrome are English. Product names, categories, an
 - A link with class `bf-em` and a reversed `data-e` value (`user|domain`, characters reversed) becomes a `mailto:` link. This package does not include an address.
 - The 1600px header and footer stay off until you add the class `befree-wide`. See below.
 
+## Changes in 1.1.2
+
+- Optional 1600px wide header and footer. It is off by default, so existing stores look the same. Add the `befree-wide` class to the body tag to turn it on (see "Optional: wide header and footer" below).
+- Side-menu links on light backgrounds use a readable dark lime (#3F6212, hover #365314).
+
 ## Changes in 1.1.1
 
 - A saved blank text field stays blank on the storefront. Hub names, the highlight, the hero kicker, and the hero title no longer snap back to "Hub 2", "Your line", or the other sample sentences after you clear them.
