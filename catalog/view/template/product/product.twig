@@ -232,6 +232,13 @@
                 <input type="hidden" name="product_id" value="{{ product_id }}" id="input-product-id"/>
                 <div id="error-quantity" class="form-text"></div>
               </div>
+              {# Optional accepted-method badges under Add to Cart. Off by default so stores that do not use PayPal Checkout are unchanged. Set true to show the row. Apple Pay / Google Pay still have their own flags inside payment_badges.twig. #}
+              {% if bf_show_payment_badges is not defined %}
+                {% set bf_show_payment_badges = false %}
+              {% endif %}
+              {% if bf_show_payment_badges %}
+                {% include 'extension/befree/product/payment_badges' %}
+              {% endif %}
               {% if minimum > 1 %}
                 <div class="alert alert-warning"><i class="fa-solid fa-circle-info"></i> {{ text_minimum }}</div>
               {% endif %}

@@ -39,7 +39,8 @@ class Befree extends \Opencart\System\Engine\Controller {
 			'common/cart',
 			'product/thumb',
 			'product/category',
-			'product/product'
+			'product/product',
+			'checkout/register'
 		];
 
 		if (!in_array($route, $targets, true)) {

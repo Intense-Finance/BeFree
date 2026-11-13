@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.1.
+Version 1.2.2.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,12 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.2
+
+- Guest Checkout is easier to see. On the checkout register step it is a bold choice with the hint "No account needed". Register Account stays the default. This is on for every store using the theme.
+- A row of payment badges can sit under Add to Cart. It is off until a store turns it on in the product template. The row says all payments are processed by PayPal. Apple Pay and Google Pay stay hidden until those are turned on inside the badge template.
+- The badge and guest-checkout styles live in a new file, `payment-badges.css`, so the `befree.css?v=1.2.1` link from 1.2.1 is unchanged.
 
 ## Changes in 1.2.1
 

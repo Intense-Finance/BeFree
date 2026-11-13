@@ -146,7 +146,7 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.2.1"'), 'install.json version is 1.2.1');
+	check(str_contains($install, '"version": "1.2.2"'), 'install.json version is 1.2.2');
 	check(str_contains($admin, "'theme_befree_twitter'"), 'admin default includes an x handle setting');
 	check(str_contains($admin, "'theme_befree_hub1_map'"), 'admin default includes a hub map setting');
 	check(str_contains($admin_twig, 'name="theme_befree_twitter"'), 'admin form edits the x handle');
