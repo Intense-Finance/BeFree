@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.2.
+Version 1.2.3.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,10 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.3
+
+- Product pages no longer pull in a separate badge template. OpenCart 4 cannot find that include, and every product page failed to load. The same badge markup now sits inside the product template. It is still off until a store turns it on. The wording is unchanged.
 
 ## Changes in 1.2.2
 

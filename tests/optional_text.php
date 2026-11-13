@@ -146,7 +146,30 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.2.2"'), 'install.json version is 1.2.2');
+	check(str_contains($install, '"version": "1.2.3"'), 'install.json version is 1.2.3');
+
+	$product_twig = (string)file_get_contents($root . '/catalog/view/template/product/product.twig');
+	check(!preg_match('/\{%-?\s*include\b[^%]*payment_badges/i', $product_twig), 'product template does not include payment_badges');
+	check(str_contains($product_twig, 'bf_show_payment_badges = false'), 'payment badges stay off unless a store turns them on');
+	check(!is_file($root . '/catalog/view/template/product/payment_badges.twig'), 'payment badge partial is not a separate template');
+
+	$bad_include = false;
+	$twig_scan = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root . '/catalog/view/template', FilesystemIterator::SKIP_DOTS));
+
+	foreach ($twig_scan as $twig_file) {
+		if (strtolower((string)$twig_file->getExtension()) !== 'twig') {
+			continue;
+		}
+
+		$twig_text = (string)file_get_contents($twig_file->getPathname());
+
+		if (preg_match('/\{%-?\s*(include|embed|import)\b[^%]*extension\/befree\//i', $twig_text)) {
+			$bad_include = true;
+			break;
+		}
+	}
+
+	check($bad_include === false, 'no twig include, embed, or import uses an extension/befree path');
 	check(str_contains($admin, "'theme_befree_twitter'"), 'admin default includes an x handle setting');
 	check(str_contains($admin, "'theme_befree_hub1_map'"), 'admin default includes a hub map setting');
 	check(str_contains($admin_twig, 'name="theme_befree_twitter"'), 'admin form edits the x handle');
