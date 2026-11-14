@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.4.
+Version 1.2.5.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,12 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.5
+
+- Checkout card labels stay readable on the dark theme when a store uses the Clear Thinking Stripe panel. That panel is a white box, so the card number, expiry, and security-code labels were inheriting the light page color. The rules are optional, scoped to the checkout page, and do nothing when those elements are absent.
+- On a small screen the mini-cart fits the viewport, so the remove button, prices, and Checkout stay reachable.
+- The stylesheet link for befree.css now includes `?v=1.2.5`, so a browser that cached the old file picks up these rules. `payment-badges.css?v=1.2.1` is unchanged.
 
 ## Changes in 1.2.4
 
