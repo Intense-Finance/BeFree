@@ -127,7 +127,15 @@ class Befree extends \Opencart\System\Engine\Controller {
 		$shelf = [];
 		$master = $this->masterSql('p');
 		$group_id = (int)$this->config->get('config_customer_group_id');
-		$products = $this->db->query("SELECT p.`product_id`, p.`model`, p.`price`, p.`image`, p.`tax_class_id`, pd.`name`, (SELECT ps.`price` FROM `" . DB_PREFIX . "product_special` ps WHERE ps.`product_id` = p.`product_id` AND ps.`customer_group_id` = '" . $group_id . "' AND ((ps.`date_start` = '0000-00-00' OR ps.`date_start` < NOW()) AND (ps.`date_end` = '0000-00-00' OR ps.`date_end` > NOW())) ORDER BY ps.`priority` ASC, ps.`price` ASC LIMIT 1) AS `special` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_to_store` p2s ON (p.`product_id` = p2s.`product_id`) WHERE p.`status` = '1' AND p.`date_available` <= NOW() AND pd.`language_id` = '" . $language_id . "' AND p2s.`store_id` = '" . $store_id . "'" . $master . " ORDER BY p.`sort_order` ASC, LCASE(pd.`name`) ASC LIMIT 9");
+		// OpenCart 4.1 dropped the product_special table; specials live in product_discount with special = 1.
+		// Older OpenCart 4.0.x still has product_special, so check which one exists.
+		if ($this->db->query("SHOW TABLES LIKE '" . $this->db->escape(DB_PREFIX . 'product_special') . "'")->num_rows) {
+			$special_sql = "(SELECT ps.`price` FROM `" . DB_PREFIX . "product_special` ps WHERE ps.`product_id` = p.`product_id` AND ps.`customer_group_id` = '" . $group_id . "' AND ((ps.`date_start` IS NULL OR ps.`date_start` = '0000-00-00' OR ps.`date_start` < NOW()) AND (ps.`date_end` IS NULL OR ps.`date_end` = '0000-00-00' OR ps.`date_end` > NOW())) ORDER BY ps.`priority` ASC, ps.`price` ASC LIMIT 1)";
+		} else {
+			$special_sql = "(SELECT ps.`price` FROM `" . DB_PREFIX . "product_discount` ps WHERE ps.`product_id` = p.`product_id` AND ps.`customer_group_id` = '" . $group_id . "' AND ps.`special` = '1' AND ((ps.`date_start` IS NULL OR ps.`date_start` = '0000-00-00' OR ps.`date_start` < NOW()) AND (ps.`date_end` IS NULL OR ps.`date_end` = '0000-00-00' OR ps.`date_end` > NOW())) ORDER BY ps.`priority` ASC, ps.`price` ASC LIMIT 1)";
+		}
+
+		$products = $this->db->query("SELECT p.`product_id`, p.`model`, p.`price`, p.`image`, p.`tax_class_id`, pd.`name`, " . $special_sql . " AS `special` FROM `" . DB_PREFIX . "product` p LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_to_store` p2s ON (p.`product_id` = p2s.`product_id`) WHERE p.`status` = '1' AND p.`date_available` <= NOW() AND pd.`language_id` = '" . $language_id . "' AND p2s.`store_id` = '" . $store_id . "'" . $master . " ORDER BY p.`sort_order` ASC, LCASE(pd.`name`) ASC LIMIT 9");
 
 		$this->load->model('tool/image');
 		$currency = $this->session->data['currency'] ?? $this->config->get('config_currency');

@@ -146,7 +146,7 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.2.3"'), 'install.json version is 1.2.3');
+	check(str_contains($install, '"version": "1.2.4"'), 'install.json version is 1.2.4');
 
 	$product_twig = (string)file_get_contents($root . '/catalog/view/template/product/product.twig');
 	check(!preg_match('/\{%-?\s*include\b[^%]*payment_badges/i', $product_twig), 'product template does not include payment_badges');
