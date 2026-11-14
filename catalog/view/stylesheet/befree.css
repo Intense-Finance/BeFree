@@ -505,3 +505,36 @@ body.befree #information-information #content :is(.card, .bg-white, .bg-light, .
   body.befree .breadcrumb { flex-wrap: nowrap; overflow: hidden; }
   body.befree .breadcrumb > li.breadcrumb-item:last-child { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 }
+
+/* Optional (Clear Thinking Stripe). Checkout card and panel boxes are white,
+   so labels and card fields that inherit the dark theme's light text are
+   unreadable. These selectors match that extension's element IDs and apply
+   only inside #checkout-checkout. When the elements are absent, nothing changes. */
+body.befree #checkout-checkout #payment,
+body.befree #checkout-checkout #payment-method-tabs,
+body.befree #checkout-checkout #payment-method-tabs span[data-tab] { color: #111111; }
+body.befree #checkout-checkout #payment-method-tabs span[data-tab] { font-size: 16px; }
+body.befree #checkout-checkout #card-number-text,
+body.befree #checkout-checkout #card-expiry-text,
+body.befree #checkout-checkout #card-cvc-text,
+body.befree #checkout-checkout #payment label {
+  color: #111111 !important; background: transparent !important; background-color: transparent !important;
+  -webkit-text-fill-color: #111111; box-shadow: none; font-size: 16px; font-weight: 600; min-width: 150px; width: auto;
+}
+body.befree #checkout-checkout #card-element,
+body.befree #checkout-checkout #card-number,
+body.befree #checkout-checkout #card-expiry,
+body.befree #checkout-checkout #card-cvc,
+body.befree #checkout-checkout #card-select { background: #ffffff; border: 1px solid #555555; color: #111111; }
+
+/* Mobile mini-cart. Stock OpenCart 4 cart markup, scoped to this theme.
+   On a small screen the dropdown stays on the viewport so the remove
+   button, prices, and Checkout remain reachable. */
+@media (max-width: 575.98px) {
+  body.befree #cart .dropdown-menu { min-width: 0; width: calc(100vw - 24px); max-width: calc(100vw - 24px); }
+  body.befree #cart .dropdown-menu table { table-layout: auto; width: 100%; }
+  body.befree #cart .dropdown-menu td { white-space: normal; overflow-wrap: anywhere; word-break: normal; padding: .35rem .25rem; }
+  body.befree #cart .dropdown-menu td.w-25 { width: 56px !important; }
+  body.befree #cart .dropdown-menu td.text-end { white-space: nowrap; }
+  body.befree #cart .dropdown-menu td.w-25 img { max-width: 48px; height: auto; }
+}
