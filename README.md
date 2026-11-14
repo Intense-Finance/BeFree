@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.3.
+Version 1.2.4.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,10 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.4
+
+- Fixes a 500 error on OpenCart 4.1 caused by a `product_special` table lookup. OpenCart 4.1 stores specials in `product_discount` with `special` = 1. The theme now checks which table exists, so it still works on OpenCart 4.0.x and does not fail if the old table is missing.
 
 ## Changes in 1.2.3
 
