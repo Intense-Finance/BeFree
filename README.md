@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.0.
+Version 1.2.3.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,22 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.3
+
+- Product pages no longer pull in a separate badge template. OpenCart 4 cannot find that include, and every product page failed to load. The same badge markup now sits inside the product template. It is still off until a store turns it on. The wording is unchanged.
+
+## Changes in 1.2.2
+
+- Guest Checkout is easier to see. On the checkout register step it is a bold choice with the hint "No account needed". Register Account stays the default. This is on for every store using the theme.
+- A row of payment badges can sit under Add to Cart. It is off until a store turns it on in the product template. The row says all payments are processed by PayPal. Apple Pay and Google Pay stay hidden until those are turned on inside the badge template.
+- The badge and guest-checkout styles live in a new file, `payment-badges.css`, so the `befree.css?v=1.2.1` link from 1.2.1 is unchanged.
+
+## Changes in 1.2.1
+
+- Storefront text is easier to read on the dark background. Body text is 16px instead of Bootstrap's 13px. Small notes are at least 14px. Form labels are 15px instead of 12px.
+- Headings are a light gray instead of OpenCart's #444, which was too dim on black. Product page titles and product card titles are white and bold, and they stay the same size.
+- Information pages (terms, delivery, and the other information topics) use 17px body text and light headings. The stylesheet link for befree.css now includes `?v=1.2.1`, so a browser that cached the old file for up to 7 days picks up the new one.
 
 ## Changes in 1.2.0
 

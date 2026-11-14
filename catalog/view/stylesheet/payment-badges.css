@@ -1,0 +1,210 @@
+/* BeFree: payment badges + bold guest checkout
+   2026-11-13  Min text 14px. Dark skin (body.befree). No payment-setting changes. */
+
+/* ---------- A) Product-page payment badges ---------- */
+body.befree .bf-pay-badges {
+  margin: 12px 0 4px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(155, 255, 46, 0.35);
+  border-radius: 8px;
+  background: rgba(13, 13, 13, 0.7);
+}
+body.befree .bf-pay-badges__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+body.befree .bf-pay-badges__header-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  flex: 0 0 auto;
+}
+body.befree .bf-pay-badges__header-title {
+  margin: 0;
+  font-family: "Barlow Condensed", Outfit, "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+body.befree .bf-pay-badges__note {
+  margin: 12px 0 0;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 500;
+  color: #f2f5f8;
+}
+body.befree .bf-pay-badges__text {
+  /* kept for older markup; same as note */
+  margin: 0 0 10px;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 500;
+  color: #f2f5f8;
+}
+body.befree .bf-pay-badges__text strong {
+  font-weight: 700;
+  color: #ffffff;
+}
+body.befree .bf-pay-badges__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+body.befree .bf-pay-badges__item {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+body.befree .bf-pay-badges__mark {
+  display: block;
+  height: 36px;
+  width: auto;
+  max-width: 150px;
+}
+body.befree .bf-pay-badges__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+body.befree .bf-pay-badges__chip img,
+body.befree .bf-pay-badges__chip svg {
+  display: block;
+  height: 18px;
+  width: auto;
+  max-width: 86px;
+}
+body.befree .bf-pay-badges__chip--apple {
+  background: #000000;
+  padding: 0;
+  width: 52px;
+}
+body.befree .bf-pay-badges__chip--apple img,
+body.befree .bf-pay-badges__chip--apple svg {
+  height: 32px;
+  max-width: 52px;
+}
+body.befree .bf-pay-badges__chip--venmo {
+  background: #008CFF;
+}
+body.befree .bf-pay-badges__chip--venmo img,
+body.befree .bf-pay-badges__chip--venmo svg {
+  height: 16px;
+  filter: brightness(0) invert(1);
+}
+body.befree .bf-pay-badges__chip--paylater {
+  background: #003087;
+  color: #ffffff;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 32px;
+  padding: 0 12px;
+}
+/* Hidden until Apple Pay / Google Pay are actually enabled in PayPal */
+body.befree .bf-pay-badges:not(.is-apple-pay-on) .bf-pay-badge--applepay,
+body.befree .bf-pay-badges:not(.is-google-pay-on) .bf-pay-badge--googlepay {
+  display: none !important;
+}
+
+@media (max-width: 575.98px) {
+  body.befree .bf-pay-badges {
+    padding: 12px;
+  }
+  body.befree .bf-pay-badges__header-title {
+    font-size: 16px;
+  }
+  body.befree .bf-pay-badges__note,
+  body.befree .bf-pay-badges__text {
+    font-size: 14px;
+  }
+  body.befree .bf-pay-badges__mark,
+  body.befree .bf-pay-badges__chip,
+  body.befree .bf-pay-badges__chip--apple {
+    height: 32px;
+  }
+  body.befree .bf-pay-badges__chip--apple img,
+  body.befree .bf-pay-badges__chip--apple svg {
+    height: 32px;
+  }
+}
+
+/* ---------- B) Checkout: make Guest Checkout bold and prominent ---------- */
+/* Works with the wrapper class (preferred) and with :has() if only CSS is applied. */
+body.befree #form-register .bf-checkout-account,
+body.befree #form-register .col.mb-3.required:has(#input-guest) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+  width: 100%;
+}
+body.befree #form-register .bf-checkout-account > .form-check,
+body.befree #form-register .col.mb-3.required:has(#input-guest) > .form-check {
+  margin: 0;
+  padding: 12px 16px 12px 36px;
+  border: 1px solid #3a3f46;
+  border-radius: 8px;
+  background: #16181c;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  flex: 1 1 200px;
+}
+body.befree #form-register label[for="input-register"] {
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #e7eef6;
+}
+body.befree #form-register .bf-guest-checkout,
+body.befree #form-register .form-check:has(#input-guest) {
+  border: 2px solid #9bff2e !important;
+  background: rgba(155, 255, 46, 0.10) !important;
+  box-shadow: 0 0 0 1px rgba(155, 255, 46, 0.15);
+}
+body.befree #form-register label[for="input-guest"] {
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+body.befree #form-register .bf-guest-checkout__hint {
+  display: block;
+  margin-top: 2px;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #9bff2e;
+  line-height: 1.3;
+}
+body.befree #form-register #input-guest {
+  width: 1.15em;
+  height: 1.15em;
+  margin-top: 0.15em;
+  accent-color: #9bff2e;
+}
+@media (max-width: 575.98px) {
+  body.befree #form-register label[for="input-guest"] {
+    font-size: 17px !important;
+  }
+}
