@@ -16,6 +16,8 @@ class Befree extends \Opencart\System\Engine\Controller {
 			return;
 		}
 
+		$this->usDates();
+
 		// 4.0.x stops the event chain on the first non-null return, so this
 		// listener returns nothing and runs early. 4.1 runs every listener and
 		// ignores the return, so this listener runs late and keeps the route.
@@ -61,6 +63,35 @@ class Befree extends \Opencart\System\Engine\Controller {
 		}
 
 		$route = 'extension/befree/' . $route;
+	}
+
+	private function usDates(): void {
+		if ((int)$this->config->get('theme_befree_us_dates') !== 1) {
+			return;
+		}
+
+		if (strpos((string)$this->config->get('config_language'), 'en') !== 0) {
+			return;
+		}
+
+		$formats = [
+			'date_format_short' => 'm/d/Y',
+			'date_format_long'  => 'l, F j, Y',
+			'datetime_format'   => 'm/d/Y H:i:s'
+		];
+
+		foreach ($formats as $key => $value) {
+			$this->language->set($key, $value);
+		}
+
+		// Startup runs through $this->load->controller(), so OpenCart's event/language.after
+		// restores language strings saved in 'backup' when it returns. Merge the US formats
+		// into that saved copy too so they stay active for the rest of the request.
+		$backup = json_decode((string)$this->language->get('backup'), true);
+
+		if (is_array($backup)) {
+			$this->language->set('backup', (string)json_encode(array_merge($backup, $formats)));
+		}
 	}
 
 	private function isActive(): bool {

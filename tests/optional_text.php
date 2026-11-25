@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Opencart\System\Engine {
 	class Controller {
 		public object $config;
+		public object $language;
 
 		public function __construct(object $config) {
 			$this->config = $config;
@@ -146,17 +147,58 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.2.5"'), 'install.json version is 1.2.5');
+	check(str_contains($install, '"version": "1.2.6"'), 'install.json version is 1.2.6');
 
 	$header = (string)file_get_contents($root . '/catalog/view/template/common/header.twig');
 	$css = (string)file_get_contents($root . '/catalog/view/stylesheet/befree.css');
-	check(str_contains($header, 'befree.css?v=1.2.5'), 'befree.css cache string is 1.2.5');
+	check(str_contains($header, 'befree.css?v=1.2.6'), 'befree.css cache string is 1.2.6');
 	check(str_contains($header, 'payment-badges.css?v=1.2.1'), 'payment badge stylesheet cache string is unchanged');
 	check(str_contains($css, 'body.befree #checkout-checkout #card-number-text'), 'checkout card contrast targets the stripe card labels');
 	check(str_contains($css, 'body.befree #checkout-checkout #payment label'), 'checkout card contrast is scoped to the checkout page');
 	check(str_contains($css, 'body.befree #cart .dropdown-menu { min-width: 0; width: calc(100vw - 24px);'), 'mobile mini-cart rule is prefixed with body.befree');
 	check(stripos($css, 'pn-cfq') === false, 'stylesheet has no call-for-quote rules');
 	check(stripos($css, 'pro1') === false, 'stylesheet has no store-branded pro1 rules');
+	check(str_contains($css, 'body.befree:has(#cart .dropdown-menu.show) .pn-call { display: none; }'), 'floating call button hides when mobile mini-cart opens');
+	check(str_contains($css, 'body.befree:has(.pn-call) footer { padding-bottom: 5.5rem; }'), 'mobile footer keeps space for floating call button');
+	check(str_contains($css, 'body.befree .modal-content .btn-light'), 'light buttons stay visible inside white modals and cards');
+
+	$finder_twig = (string)file_get_contents($root . '/catalog/view/template/finder/finder.twig');
+	check(str_contains($finder_twig, '<div id="content">'), 'finder template wraps cards in #content for stock footer spacing');
+	check(str_contains($finder_twig, '{% if product.price %}<em>{{ product.price }}</em>{% endif %}'), 'finder template omits empty price tags');
+	check(str_contains($admin, "'theme_befree_us_dates'"), 'admin default includes optional us date format setting');
+	check(str_contains($admin_twig, 'name="theme_befree_us_dates"'), 'admin form edits the us date format setting');
+
+	$us_off = new OcConfig();
+	$us_off->set('config_language', 'en-gb');
+	$lang_off = new OcConfig();
+	$lang_off->set('date_format_short', 'd/m/Y');
+	$ctrl_off = new Opencart\Catalog\Controller\Extension\Befree\Startup\Befree($us_off);
+	$ctrl_off->language = $lang_off;
+	(new ReflectionMethod($ctrl_off, 'usDates'))->invoke($ctrl_off);
+	check($lang_off->get('date_format_short') === 'd/m/Y', 'us date format is off by default');
+
+	$us_fr = new OcConfig();
+	$us_fr->set('theme_befree_us_dates', '1');
+	$us_fr->set('config_language', 'fr-fr');
+	$lang_fr = new OcConfig();
+	$lang_fr->set('date_format_short', 'd/m/Y');
+	$ctrl_fr = new Opencart\Catalog\Controller\Extension\Befree\Startup\Befree($us_fr);
+	$ctrl_fr->language = $lang_fr;
+	(new ReflectionMethod($ctrl_fr, 'usDates'))->invoke($ctrl_fr);
+	check($lang_fr->get('date_format_short') === 'd/m/Y', 'us date format skips non-english stores');
+
+	$us_on = new OcConfig();
+	$us_on->set('theme_befree_us_dates', '1');
+	$us_on->set('config_language', 'en-gb');
+	$lang_on = new OcConfig();
+	$lang_on->set('date_format_short', 'd/m/Y');
+	$lang_on->set('backup', json_encode(['date_format_short' => 'd/m/Y']));
+	$ctrl_on = new Opencart\Catalog\Controller\Extension\Befree\Startup\Befree($us_on);
+	$ctrl_on->language = $lang_on;
+	(new ReflectionMethod($ctrl_on, 'usDates'))->invoke($ctrl_on);
+	check($lang_on->get('date_format_short') === 'm/d/Y', 'us date format switches english short date when enabled');
+	$backup_after = json_decode((string)$lang_on->get('backup'), true);
+	check(is_array($backup_after) && ($backup_after['date_format_short'] ?? '') === 'm/d/Y', 'us date format updates saved language backup');
 
 	$product_twig = (string)file_get_contents($root . '/catalog/view/template/product/product.twig');
 	check(!preg_match('/\{%-?\s*include\b[^%]*payment_badges/i', $product_twig), 'product template does not include payment_badges');
