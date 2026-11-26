@@ -350,6 +350,7 @@ body.befree .pn-call {
   body.befree .pn-search { order: 3; max-width: none; flex-basis: 100%; }
   body.befree .pn-hubs { display: none; }
   body.befree .pn-call { display: inline-flex; }
+  body.befree:has(.pn-call) footer { padding-bottom: 5.5rem; }
 }
 @media (max-width: 640px) {
   body.befree .pn-use-grid,
@@ -370,9 +371,16 @@ body.befree .pn-call {
 /* Alerts sit on the dark storefront. Keep the text light and the surfaces dark. */
 body.befree #alert .alert-success { color: #ffffff !important; background-color: #1a1a1a !important; border-color: #555555 !important; }
 body.befree #alert .alert-danger { color: #ffffff !important; background-color: #5c0b0b !important; border-color: #8a3a3a !important; }
+body.befree #alert .alert-warning { color: #ffffff !important; background-color: #1a1a1a !important; border-color: #555555 !important; border-left: 4px solid var(--pn-gold) !important; }
+body.befree #alert .alert-info,
+body.befree #alert .alert-primary,
+body.befree #alert .alert-secondary,
+body.befree #alert .alert-light,
+body.befree #alert .alert-dark { color: #ffffff !important; background-color: #1a1a1a !important; border-color: #555555 !important; }
 body.befree #alert .alert a,
 body.befree #alert .alert i { color: #ffffff !important; }
 body.befree #alert .alert .btn-close { opacity: 1 !important; filter: invert(1) grayscale(1) brightness(2) !important; }
+body.befree .alert a { color: inherit; text-decoration: underline; font-weight: 600; }
 
 /* Links on light surfaces: the theme gold can be too faint, so use the same dark lime as the side menu. */
 body.befree .card a,
@@ -445,7 +453,13 @@ body.befree .table { font-size: 15px; }
 body.befree .price-tax,
 body.befree .form-text,
 body.befree .text-muted { color: #c9d1d9; }
-body.befree .text-muted { color: #c9d1d9 !important; }
+body.befree .text-muted,
+body.befree .text-secondary,
+body.befree .text-body-secondary,
+body.befree .help-block { color: #c9d1d9 !important; }
+body.befree .form-control::placeholder,
+body.befree input::placeholder,
+body.befree textarea::placeholder { color: var(--pn-muted); opacity: 1; }
 
 @media (max-width: 575.98px) {
   body.befree .pn-top-links { font-size: 14px; gap: 10px; }
@@ -498,7 +512,19 @@ body.befree #information-sitemap { font-size: 16px; }
 /* Account and checkout cards are white. Keep those headings and notes dark. */
 body.befree :is(.card, .modal-content, .bg-white, .bg-light, .list-group-item, .popover) :is(h1, h2, h3, h4, h5, h6),
 body.befree #information-information #content :is(.card, .modal-content, .bg-white, .bg-light, .list-group-item, .popover) :is(h1, h2, h3, h4, h5, h6) { color: #212529; }
-body.befree :is(.card, .modal-content, .bg-white, .bg-light, .list-group-item, .popover) :is(.text-muted, .form-text, .price-tax) { color: #6c757d !important; }
+body.befree .modal-content,
+body.befree .list-group-item:not(.active),
+body.befree .popover,
+body.befree .bg-white,
+body.befree .bg-light { color: #212529; }
+body.befree :is(.card, .modal-content, .bg-white, .bg-light, .list-group-item, .popover) :is(.text-muted, .text-secondary, .text-body-secondary, .form-text, .price-tax, .help-block) { color: #6c757d !important; }
+body.befree :is(.card, .modal-content, .bg-white, .bg-light) :is(.form-control, input, textarea)::placeholder { color: #6c757d; opacity: 1; }
+body.befree .modal-content .btn-light,
+body.befree .card .btn-light,
+body.befree .bg-white .btn-light { background: #f1f3f5; color: #212529; border-color: #adb5bd; }
+body.befree .invalid-feedback,
+body.befree .text-danger { color: #ff6b6b !important; }
+body.befree :is(.card, .modal-content, .bg-white, .bg-light, .table-light) :is(.invalid-feedback, .text-danger) { color: #b02a37 !important; }
 body.befree #information-information #content :is(.card, .bg-white, .bg-light, .modal-content) :is(td, th) { color: #212529; }
 
 @media (max-width: 767.98px) {
@@ -538,3 +564,4 @@ body.befree #checkout-checkout #card-select { background: #ffffff; border: 1px s
   body.befree #cart .dropdown-menu td.text-end { white-space: nowrap; }
   body.befree #cart .dropdown-menu td.w-25 img { max-width: 48px; height: auto; }
 }
+body.befree:has(#cart .dropdown-menu.show) .pn-call { display: none; }

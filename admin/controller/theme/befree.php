@@ -174,6 +174,7 @@ class Befree extends \Opencart\System\Engine\Controller {
 			'theme_befree_show_matrix'   => 1,
 			'theme_befree_show_advisor'  => 1,
 			'theme_befree_show_hubs'     => 1,
+			'theme_befree_us_dates'      => 0,
 			'theme_befree_bulk'          => '1000',
 			'theme_befree_use'           => $this->defaultUses()
 		];

@@ -4,7 +4,7 @@ BeFree is a dark industrial storefront theme for OpenCart 4. Your real categorie
 
 The extension **code** OpenCart uses is `befree`. The name people see in Extensions and in System → Settings is **BeFree OpenCart Theme**. Both have to match the files in this package. Renaming only the zip is not enough.
 
-Version 1.2.5.
+Version 1.2.6.
 ![image description](/BeFree1.png)
 ![image description](/BeFree2.png)
 ## License
@@ -121,6 +121,14 @@ befree.ocmod.zip
 Settings are stored under the code `theme_befree`. The store setting `config_theme` is the code `befree`.
 
 Admin labels and the home-page chrome are English. Product names, categories, and the rest of OpenCart follow the store language.
+
+## Changes in 1.2.6
+
+- Product Use finder results now sit inside `#content`, so OpenCart's stock footer padding keeps the footer from overlapping the bottom cards, and an empty price tag is omitted when prices are blank or hidden.
+- Mobile mini-cart and footer clearance: the floating Call button hides while the mini-cart dropdown is open so Checkout stays reachable, and footers reserve bottom space on small screens when `.pn-call` is shown.
+- Contrast polish: readable dark-input placeholders, `.text-secondary` / `.help-block` colors, dark text inside white modals/popovers/list items, visible `.btn-light` buttons inside white cards and modals, inline `.alert a` contrast, dark styling for remaining `#alert` variants, and higher-contrast validation errors on dark and light surfaces.
+- Optional **US date format** switch in theme admin (off by default). When enabled on English storefronts, switches short, long, and datetime formats to `m/d/Y` while preserving OpenCart's `d/m/Y` default when off.
+- Bumped `befree.css?v=1.2.6` cache-buster. `payment-badges.css?v=1.2.1` is unchanged.
 
 ## Changes in 1.2.5
 
