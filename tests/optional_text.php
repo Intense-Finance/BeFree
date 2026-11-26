@@ -147,11 +147,11 @@ namespace {
 	check(str_contains($admin_twig, 'name="theme_befree_hero_lead"'), 'admin form edits the hero lead');
 	check(str_contains($admin, 'array_key_exists($key, $setting)'), 'admin keeps a saved blank instead of refilling it');
 	check(str_contains($catalog, 'theme_befree_gold'), 'color fallback is still present');
-	check(str_contains($install, '"version": "1.2.6"'), 'install.json version is 1.2.6');
+	check(str_contains($install, '"version": "1.2.7"'), 'install.json version is 1.2.7');
 
 	$header = (string)file_get_contents($root . '/catalog/view/template/common/header.twig');
 	$css = (string)file_get_contents($root . '/catalog/view/stylesheet/befree.css');
-	check(str_contains($header, 'befree.css?v=1.2.6'), 'befree.css cache string is 1.2.6');
+	check(str_contains($header, 'befree.css?v=1.2.7'), 'befree.css cache string is 1.2.7');
 	check(str_contains($header, 'payment-badges.css?v=1.2.1'), 'payment badge stylesheet cache string is unchanged');
 	check(str_contains($css, 'body.befree #checkout-checkout #card-number-text'), 'checkout card contrast targets the stripe card labels');
 	check(str_contains($css, 'body.befree #checkout-checkout #payment label'), 'checkout card contrast is scoped to the checkout page');
